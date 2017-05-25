@@ -1,0 +1,10 @@
+<div [ngClass]="{ 'alert': bcAlertType, 'alert-dismissible': bcAlertType,
+                  'alert-danger': bcAlertType === 'danger',
+                  'alert-warning': bcAlertType === 'warning',
+                  'alert-info': bcAlertType === 'info',
+                  'alert-success': bcAlertType === 'success'
+                }">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+  <h4><i [ngClass]="icon"></i> {{header}}</h4>
+  <ng-content></ng-content>
+</div>

@@ -30,6 +30,8 @@ export class App {
               private viewContainerRef: ViewContainerRef,
               private themeConfig: BaThemeConfig) {
 
+    console.log('app.component.ts');
+    
     themeConfig.config();
 
     this._loadImages();

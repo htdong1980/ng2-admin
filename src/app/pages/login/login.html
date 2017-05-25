@@ -1,14 +1,24 @@
+
 <div class="auth-main">
   <div class="auth-block">
-    <h1 translate>{{'login.title'}}</h1>
+    <a routerLink="/pages" class="auth-title"> <h1 translate>{{'login.title'}}</h1> </a>
     <a routerLink="/register" class="auth-link" translate>{{'login.signup_link'}}</a>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="form-horizontal">
+      <!--
       <div class="form-group row" [ngClass]="{'has-error': (!email.valid && email.touched), 'has-success': (email.valid && email.touched)}">
         <label for="inputEmail3" class="col-sm-2 control-label" translate>{{'login.email'}}</label>
 
         <div class="col-sm-10">
           <input [formControl]="email" type="email" class="form-control" id="inputEmail3" placeholder="{{'login.email' | translate}}">
+        </div>
+      </div>
+    -->
+      <div class="form-group row" [ngClass]="{'has-error': (!username.valid && username.touched), 'has-success': (username.valid && username.touched)}">
+        <label for="inputUsername3" class="col-sm-2 control-label" translate>{{'login.username'}}</label>
+
+        <div class="col-sm-10">
+          <input [formControl]="username" type="text" class="form-control" id="inputUsername3" placeholder="{{'login.username' | translate}}">
         </div>
       </div>
       <div class="form-group row" [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}">
@@ -21,12 +31,13 @@
       <div class="form-group row">
         <div class="offset-sm-2 col-sm-10">
           <button [disabled]="!form.valid" type="submit" class="btn btn-default btn-auth" translate>{{'login.sign_in'}}</button>
-          <a routerLink="/login" class="forgot-pass" translate>{{'login.forgot_password'}}</a>
+          <a routerLink="/reset" class="forgot-pass" translate>{{'login.forgot_password'}}</a>
         </div>
       </div>
     </form>
 
-    <div class="auth-sep"><span><span translate>{{'login.sign_from_app_text'}}</span></span></div>
+    <!--
+    <div class="auth-line"></div>
 
     <div class="al-share-auth">
       <ul class="al-share clearfix">
@@ -35,5 +46,6 @@
         <li><i class="socicon socicon-google" title="{{'login.share_on_google_plus' | translate}}"></i></li>
       </ul>
     </div>
+    -->
   </div>
 </div>

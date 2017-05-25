@@ -1,0 +1,24 @@
+<div *ngIf="!progress" class="info-box">
+  <span class="info-box-icon bg-{{infoColor}}"><i class="{{icon}}"></i></span>
+  <div class="info-box-content">
+    <span class="info-box-text text-{{infoColor}}">{{title}}</span>
+    <span class="info-box-number text-{{infoColor}}">{{figure}}</span>
+  </div>
+</div>
+
+<div *ngIf="progress" class="info-box bg-{{infoColor}}">
+  <span class="info-box-icon"><i class="{{icon}}"></i></span>
+  <div class="info-box-content">
+    <span class="info-box-text">{{title}}</span>
+    <span class="info-box-number">{{figure}}</span>
+
+    <div class="progress">
+      <div class="progress-bar" [ngStyle]="{'width': progress}"></div>
+    </div>
+    <span class="progress-description">
+      {{info}}
+    </span>
+
+  </div>
+
+</div>

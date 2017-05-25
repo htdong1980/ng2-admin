@@ -1,0 +1,8 @@
+<div class="box {{bcBoxClass}} {{bcSolidClass}}">
+  <div *ngIf="title" class="box-header {{bcBorderClass}}">
+    <span class="box-title" translate>{{title}}</span>
+  </div>
+  <div class="box-body">
+    <ng-content></ng-content>
+  </div>
+</div>

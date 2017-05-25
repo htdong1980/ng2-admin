@@ -1,0 +1,26 @@
+//Description block
+.description-block {
+  display: block;
+  margin: 10px 0;
+  text-align: center;
+  &.margin-bottom {
+    margin-bottom: 25px;
+  }
+  > {
+    .description-header {
+      color: #111;
+      margin: 5px 0;
+      padding: 0;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .description-text {
+      color: #97a0b3;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.border-right {
+  border-right: 1px solid #f4f4f4;
+}

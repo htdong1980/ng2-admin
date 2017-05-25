@@ -1,0 +1,11 @@
+<div [ngClass]="{ 'callout': bcCalloutType,
+                  'callout-danger': bcCalloutType === 'danger',
+                  'callout-warning': bcCalloutType === 'warning',
+                  'callout-info': bcCalloutType === 'info',
+                  'callout-success': bcCalloutType === 'success'
+                }">
+  <h4>{{header}}</h4>
+  <p>
+    <ng-content></ng-content>
+  </p>
+</div>

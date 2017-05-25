@@ -1,10 +1,18 @@
 {
+  "adminLTE":{
+    "more_info": "More info"
+  },
   "login": {
-    "title": "Sign in to ng2-admin",
-    "signup_link": "New to ng2-admin? Sign up!",
+    "title": "GK|SBS",
+    "signup_link": "Sign up!",
+    "username": "Username",
     "email": "Email",
     "password": "Password",
     "sign_in": "Sign in",
+    "sign_up": "Sign up",
+    "reset": "Reset Password",
+    "have_password": "Already have password? Sign in!",
+    "have_account": "Already have an account? Sign in!",
     "forgot_password": "Forgot password?",
     "sign_from_app_text": "or Sign in with one click",
     "share_on_facebook": "Share on Facebook",
@@ -12,6 +20,9 @@
     "share_on_google_plus": "Share on Google Plus"
   },
   "general": {
+    "gk": "GK",
+    "sbs": "SBS",
+    "gk_sbs": "GK| SBS",
     "akveo": "Akveo",
     "home": "Home",
     "forms": {
@@ -42,8 +53,10 @@
       "leaflet_maps": "Leaflet Maps",
       "bubble_maps": "Bubble Maps",
       "line_maps": "Line Maps",
+      "landingpage": "Landing Page",
       "pages": "Pages",
       "login": "Login",
+      "reset": "Reset",
       "register": "Register",
       "menu_level_1": "Menu Level 1",
       "menu_level_1_1": "Menu Level 1.1",

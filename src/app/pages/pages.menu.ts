@@ -15,6 +15,32 @@ export const PAGES_MENU = [
         }
       },
       {
+        path: 'blank',  // path for our page
+        data: { // custom menu declaration
+          menu: {
+            title: 'Blank Page', // menu title
+            icon: 'ion-document', // menu icon
+            pathMatch: 'prefix', // use it if item children not displayed in menu
+            selected: false,
+            expanded: false,
+            order: 10,
+          }
+        }
+      },
+      {
+        path: 'adminLTE',  // path for our page
+        data: { // custom menu declaration
+          menu: {
+            title: 'AdminLTE Page', // menu title
+            icon: 'ion-document', // menu icon
+            pathMatch: 'prefix', // use it if item children not displayed in menu
+            selected: false,
+            expanded: false,
+            order: 20,
+          }
+        }
+      },
+      {
         path: 'editors',
         data: {
           menu: {
@@ -277,10 +303,26 @@ export const PAGES_MENU = [
         },
         children: [
           {
+            path: ['/'],
+            data: {
+              menu: {
+                title: 'general.menu.landingpage'
+              }
+            }
+          },
+          {
             path: ['/login'],
             data: {
               menu: {
                 title: 'general.menu.login'
+              }
+            }
+          },
+          {
+            path: ['/reset'],
+            data: {
+              menu: {
+                title: 'general.menu.reset'
               }
             }
           },

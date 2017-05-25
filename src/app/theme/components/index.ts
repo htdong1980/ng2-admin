@@ -1,3 +1,4 @@
+export * from './baAlert';
 export * from './baPageTop';
 export * from './baMsgCenter';
 export * from './baSidebar';
@@ -13,3 +14,9 @@ export * from './baPictureUploader';
 export * from './baCheckbox';
 export * from './baMultiCheckbox';
 export * from './baFileUploader';
+export * from './bcBox';
+export * from './bcSmallBox';
+export * from './bcInfoBox';
+export * from './bcBlock';
+export * from './bcAlert';
+export * from './bcCallout';

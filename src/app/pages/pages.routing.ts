@@ -1,4 +1,4 @@
-import { Routes, RouterModule }  from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { Pages } from './pages.component';
 import { ModuleWithProviders } from '@angular/core';
 // noinspection TypeScriptValidateTypes
@@ -7,8 +7,16 @@ import { ModuleWithProviders } from '@angular/core';
 
 export const routes: Routes = [
   {
+    path: '',
+    loadChildren: 'app/pages/landingpage/landingpage.module#LandingPageModule'
+  },
+  {
     path: 'login',
     loadChildren: 'app/pages/login/login.module#LoginModule'
+  },
+  {
+    path: 'reset',
+    loadChildren: 'app/pages/reset/reset.module#ResetModule'
   },
   {
     path: 'register',
@@ -19,6 +27,8 @@ export const routes: Routes = [
     component: Pages,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'blank', loadChildren: './blank/blank.module#BlankModule' },
+      { path: 'adminLTE', loadChildren: './adminLTE/adminLTE.module#AdminLTEModule' },
       { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
       { path: 'editors', loadChildren: './editors/editors.module#EditorsModule' },
       { path: 'components', loadChildren: './components/components.module#ComponentsModule' },
