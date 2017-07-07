@@ -1,0 +1,64 @@
+<div [formGroup]="entryItem">
+  <div class="row">
+    <div class="form-group col-sm-2">
+      <label>{{'object.doc'|translate}} {{'prop.date'|translate}} <small *ngIf="!entryItem.controls.docDate.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <input type="date" class="form-control" name="docDate" formControlName="docDate" useValueAsDate>
+    </div>
+
+    <div class="form-group col-sm-10">
+      <label>{{'prop.desc'|translate}} <small [hidden]="entryItem.controls.desc.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <input type="text" class="form-control" name="desc" formControlName="desc" />
+    </div>
+
+    <div class="form-group col-sm-4">
+      <label>{{'object.account'|translate}} <small [hidden]="entryItem.controls.acc.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <bc-combo-box name="acc" formControlName="acc" [list]="accList" [f1]="'account'" [f2]="'desc'"></bc-combo-box> <!-- title="{{'object.account'|translate}}" -->
+    </div>
+
+    <div class="form-group col-sm-2">
+      <label>{{'object.crc'|translate}} <small [hidden]="entryItem.controls.crc.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <input type="text" class="form-control text-right" name="crc" formControlName="crc" />
+    </div>
+
+    <div class="form-group col-sm-2">
+      <label>{{'prop.amount'|translate}} <small [hidden]="entryItem.controls.amt1.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <input type="text" class="form-control text-right" name="amt1" formControlName="amt1" />
+    </div>
+
+    <div class="form-group col-sm-2">
+      <label>{{'prop.fx'|translate}} <small [hidden]="entryItem.controls.fx.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <input type="text" class="form-control text-right" name="fx" formControlName="fx" />
+    </div>
+
+    <div class="form-group col-sm-2">
+      <label>{{'prop.amount'|translate}} <small [hidden]="entryItem.controls.amt2.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <input type="text" class="form-control text-right" name="amt2" formControlName="amt2" />
+    </div>
+
+  </div>
+
+  <div class="clearfix"></div>
+
+  <!-- MJE FORM ENTRY REFERENCE -->
+  <bc-callout *ngIf="(entryItem.controls.refs.controls.length >0)" class="col-xlg-12 col-xl-12 col-lg-12 col-sm-12 col-12" bcCalloutType="native" header="References">
+    <div formArrayName="refs">
+      <div class="row">
+        <div class="col-md-3" *ngFor="let entryItemRef of entryItem.controls.refs.controls; let j=index">
+          <mje-form-entry-item-ref  [formEdit]="formEdit"
+                                    [ref]="j"
+                                    [group]="entryItem.controls.refs.controls[j]"
+                                    [objTypeList]="objTypeList"
+                                    (refEvent)="handleRefEvent($event)"
+                                    [refArray]="refArray">
+          </mje-form-entry-item-ref>
+        </div>
+      </div>
+
+    </div>
+  </bc-callout>
+  <div *ngIf="formEdit" class="margin-20">
+    <a (click)="addRef()" style="cursor: pointer">{{'form_action.add'|translate}} {{'prop.ref'|translate}} +</a>
+  </div>
+  <!-- ./ MJE FORM ENTRY REFERENCE -->
+
+</div>

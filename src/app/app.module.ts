@@ -1,3 +1,14 @@
+import { AppConfig } from './app.config';
+// import { AuthenticationService, UserService } from './core/services';
+import { InternalStateType, AppState } from './app.service';
+import { GlobalState } from './global.state';
+import { routing } from './app.routing';
+import { App } from './app.component';
+import { NgaModule } from './theme/nga.module';
+
+// import { NgcModule } from './components/ngc.module';
+import { PagesModule } from './pages/pages.module';
+
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -5,29 +16,24 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
-/*
- * Platform and Environment providers/directives/pipes
- */
-import { routing } from './app.routing';
 
-// App is our top level component
-import { App } from './app.component';
-import { AppState, InternalStateType } from './app.service';
-import { GlobalState } from './global.state';
-import { NgaModule } from './theme/nga.module';
-import { PagesModule } from './pages/pages.module';
-
+// import { AuthGuard } from './_guards/index';
+// import { AuthenticationService, UserService } from './_services/index';
 
 // Application wide providers
 const APP_PROVIDERS = [
   AppState,
-  GlobalState
+  GlobalState,
+  AppConfig,
+//  AuthGuard,
+//  AuthenticationService,
+//  UserService,
 ];
 
 export type StoreType = {
   state: InternalStateType,
   restoreInputValues: () => void,
-  disposeOldHosts: () => void
+  disposeOldHosts: () => void,
 };
 
 /**
@@ -36,7 +42,7 @@ export type StoreType = {
 @NgModule({
   bootstrap: [App],
   declarations: [
-    App
+    App,
   ],
   imports: [ // import Angular's modules
     BrowserModule,
@@ -46,12 +52,13 @@ export type StoreType = {
     ReactiveFormsModule,
     NgaModule.forRoot(),
     NgbModule.forRoot(),
+    // NgcModule.forRoot(),
     PagesModule,
-    routing
+    routing,
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
-    APP_PROVIDERS
-  ]
+    APP_PROVIDERS,
+  ],
 })
 
 export class AppModule {

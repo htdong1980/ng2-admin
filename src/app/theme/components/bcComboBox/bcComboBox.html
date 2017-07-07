@@ -1,0 +1,8 @@
+<div class="form-group">
+  <label *ngIf="title">{{title}}</label>
+  <select class="form-control" (change)="onSelect($event.target.value)"> <!--   -->
+    <option *ngFor="let item of list" [value]="item[f1]" [selected]="item[f1] == _value">
+      {{item[f1]}} {{item[f2]}}
+    </option>
+  </select>
+</div>

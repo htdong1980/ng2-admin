@@ -1,0 +1,61 @@
+<!--
+  TEMPLATE FILE
+  3 Approach considered
+  - Approach 1: Use Literal Array of Objects function processed via Component code
+    - Applicability: Only Literal Array
+    - Performance: 12 loop required. 6 for counting length and 6 for checking (checking doesn't need to go through each element anyway)
+  - Approach 2: Use Array function processed via Component code
+    - Applicability: Only Array
+    - Performance: 6 loop required for checking (checking might not need to go through each element anyway)
+  - Approach 3: Use ng-container to directly Loop through Literal Array of Objects in HTML
+    + Performance: 1 loop only as checking directly in loop
+    + Applicability: Literal Array of Objects and Array
+    - Button order is not as expected,
+      + Mitigation should be:
+        1. Reduction of array before passing to process and
+        2. Sorting by tcode in the component before passing to template
+-->
+
+<!-- Approach 1
+<div class="btn-group-example">
+  <h5 class="panel-subtitle" translate> {{'shared.individual.title'}} </h5>
+  <div class="btn-group" role="group" aria-label="Individual">
+      <button *ngIf="search(rights, 'tcode', prefix + '01')" (click)="onClick(prefix + '01')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-add"></i>{{'shared.individual.create'}}</button>
+      <button *ngIf="search(rights, 'tcode', prefix + '02')" (click)="onClick(prefix + '02')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-search"></i>{{'shared.individual.view'}}</button>
+      <button *ngIf="search(rights, 'tcode', prefix + '03')" (click)="onClick(prefix + '03')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-create"></i>{{'shared.individual.edit'}}</button>
+      <button *ngIf="search(rights, 'tcode', prefix + '04')" (click)="onClick(prefix + '04')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-toggle-filled"></i>{{'shared.individual.disable'}}</button>
+      <button *ngIf="search(rights, 'tcode', prefix + '05')" (click)="onClick(prefix + '05')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-toggle"></i>{{'shared.individual.enable'}}</button>
+      <button *ngIf="search(rights, 'tcode', prefix + '06')" (click)="onClick(prefix + '06')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-clock"></i>{{'shared.individual.view_change'}}</button>
+  </div>
+</div>
+-->
+
+<!-- Approach 2
+<div class="btn-group-example">
+  <h5 class="panel-subtitle" translate> {{'shared.individual.title'}} </h5>
+  <div class="btn-group" role="group" aria-label="Individual">
+      <button *ngIf="searchArray(rightsArray, 'tcode', prefix + '01')" (click)="onClick(prefix + '01')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-add"></i>{{'shared.individual.create'}}</button>
+      <button *ngIf="search(rightsArray, 'tcode', prefix + '02')" (click)="onClick(prefix + '02')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-search"></i>{{'shared.individual.view'}}</button>
+      <button *ngIf="search(rightsArray, 'tcode', prefix + '03')" (click)="onClick(prefix + '03')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-create"></i>{{'shared.individual.edit'}}</button>
+      <button *ngIf="search(rightsArray, 'tcode', prefix + '04')" (click)="onClick(prefix + '04')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-toggle-filled"></i>{{'shared.individual.disable'}}</button>
+      <button *ngIf="search(rightsArray, 'tcode', prefix + '05')" (click)="onClick(prefix + '05')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-toggle"></i>{{'shared.individual.enable'}}</button>
+      <button *ngIf="search(rightsArray, 'tcode', prefix + '06')" (click)="onClick(prefix + '06')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-clock"></i>{{'shared.individual.view_change'}}</button>
+  </div>
+</div>
+-->
+
+<!-- Approach 3 -->
+
+<div class="btn-group-example">
+  <h5 class="panel-subtitle" translate> {{'shared.individual.title'}} </h5>
+  <div class="btn-group" role="group" aria-label="Individual">
+    <ng-container *ngFor="let right of rightsArray">
+      <button *ngIf="right.tcode== prefix + '01'" (click)="onClick(right.tcode)" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-add"></i>{{'shared.individual.create'}}</button>
+      <button *ngIf="right.tcode== prefix + '02'" (click)="onClick(right.tcode)" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-search"></i>{{'shared.individual.view'}}</button>
+      <button *ngIf="right.tcode== prefix + '03'" (click)="onClick(right.tcode)" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-create"></i>{{'shared.individual.edit'}}</button>
+      <button *ngIf="right.tcode== prefix + '04'" (click)="onClick(right.tcode)" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-toggle-filled"></i>{{'shared.individual.disable'}}</button>
+      <button *ngIf="right.tcode== prefix + '05'" (click)="onClick(right.tcode)" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-toggle"></i>{{'shared.individual.enable'}}</button>
+      <button *ngIf="right.tcode== prefix + '06'" (click)="onClick(right.tcode)" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-clock"></i>{{'shared.individual.view_change'}}</button>
+    </ng-container>
+  </div>
+</div>

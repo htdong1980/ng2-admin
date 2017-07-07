@@ -1,0 +1,13 @@
+<div class="btn-group-example">
+  <h5 class="panel-subtitle" translate> {{'shared.collective.title'}} </h5>
+  <div class="btn-group" role="group" aria-label="Collective">
+    <ng-container *ngFor="let right of rightsArray">
+      <button *ngIf="right.tcode== prefix + '11'" (click)="onClick(right.tcode)" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-upload"></i>{{'shared.collective.upload'}}</button>
+      <button *ngIf="right.tcode== prefix + '12'" (click)="onClick(right.tcode)" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-download"></i>{{'shared.collective.extract'}}</button>
+      <button *ngIf="right.tcode== prefix + '13'" (click)="onClick(right.tcode)" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-cloud-done"></i>{{'shared.collective.update'}}</button>
+      <button *ngIf="right.tcode== prefix + '14'" (click)="onClick(right.tcode)" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-cloud"></i>{{'shared.collective.inactivate'}}</button>
+      <button *ngIf="right.tcode== prefix + '15'" (click)="onClick(right.tcode)" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-cloud-outline"></i>{{'shared.collective.activate'}}</button>
+      <button *ngIf="right.tcode== prefix + '16'" (click)="onClick(right.tcode)" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-time"></i>{{'shared.collective.history'}}</button>
+    </ng-container>
+  </div>
+</div>

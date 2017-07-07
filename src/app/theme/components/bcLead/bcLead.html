@@ -1,0 +1,19 @@
+<form [formGroup]="myForm" novalidate> <!-- (ngSubmit)="saveEntryJournal(myForm)" -->
+  <div class="form-group">
+    <bc-combo-box title="{{'object.lge'|translate}}" name="lge" [list]="lgeList" formControlName="lge" [f1]="'id'" [f2]="'desc'"></bc-combo-box>
+
+    <label for="id">{{'shared.doc_id'|translate}} <small [hidden]="id" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+    <input type="text" class="form-control" [(ngModel)]="id" name="id" formControlName="id" placeholder="{{'shared.doc_id' | translate}}">
+
+  </div>
+
+  <button type="button" *ngIf="returnUrl" (click)="return()" class="btn btn-default btn-with-icon" translate><i class="ion-ios-undo"></i>{{'shared.return'}}</button>
+
+  <div class="pull-right">
+      <button *ngIf="action=='02'" type="button" (click)="onClick()" class="btn btn-info btn-with-icon" translate><i class="ion-android-search"></i>{{'shared.individual.view'}}</button>
+      <button *ngIf="action=='03'" type="button" (click)="onClick()" class="btn btn-success btn-with-icon" translate><i class="ion-android-create"></i>{{'shared.individual.edit'}}</button>
+      <button *ngIf="action=='04'" type="button" (click)="onClick()" class="btn btn-warning btn-with-icon" translate><i class="ion-toggle-filled"></i>{{'shared.individual.disable'}}</button>
+      <button *ngIf="action=='05'" type="button" (click)="onClick()" class="btn btn-primary btn-with-icon" translate><i class="ion-toggle"></i>{{'shared.individual.enable'}}</button>
+      <button *ngIf="action=='06'" type="button" (click)="onClick()" class="btn btn-primary btn-with-icon" translate><i class="ion-clock"></i>{{'shared.individual.view_change'}}</button>
+  </div>
+</form>

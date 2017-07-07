@@ -30,12 +30,19 @@ import {
   BaPictureUploader,
   BaSidebar,
   BaFileUploader,
+  BaPageError,
   BcBox,
   BcSmallBox,
   BcInfoBox,
   BcBlock,
   BcAlert,
   BcCallout,
+  BcComboBox,
+  BcIndividual,
+  BcCollective,
+  BcLead,
+  BcUpfile,
+  BcDataTable,
 } from './components';
 
 import { BaCardBlur } from './components/baCard/baCardBlur.directive';
@@ -44,12 +51,15 @@ import {
   BaScrollPosition,
   BaSlimScroll,
   BaThemeRun,
+  BcDatePicker,
 } from './directives';
 
 import {
   BaAppPicturePipe,
   BaKameleonPicturePipe,
   BaProfilePicturePipe,
+  BcOrderBy,
+  BcFormat,
 } from './pipes';
 
 import {
@@ -58,6 +68,8 @@ import {
   BaMenuService,
   BaThemePreloader,
   BaThemeSpinner,
+  BcPagerService,
+  BcUtilsService,
 } from './services';
 
 import {
@@ -82,12 +94,19 @@ const NGA_COMPONENTS = [
   BaPictureUploader,
   BaSidebar,
   BaFileUploader,
+  BaPageError,
   BcBox,
   BcSmallBox,
   BcInfoBox,
   BcBlock,
   BcAlert,
   BcCallout,
+  BcComboBox,
+  BcIndividual,
+  BcCollective,
+  BcLead,
+  BcUpfile,
+  BcDataTable,
 ];
 
 const NGA_DIRECTIVES = [
@@ -95,12 +114,15 @@ const NGA_DIRECTIVES = [
   BaSlimScroll,
   BaThemeRun,
   BaCardBlur,
+  BcDatePicker,
 ];
 
 const NGA_PIPES = [
   BaAppPicturePipe,
   BaKameleonPicturePipe,
   BaProfilePicturePipe,
+  BcOrderBy,
+  BcFormat,
 ];
 
 const NGA_SERVICES = [
@@ -109,6 +131,8 @@ const NGA_SERVICES = [
   BaThemeSpinner,
   BaMenuService,
   BaAlertService,
+  BcPagerService,
+  BcUtilsService,
 ];
 
 const NGA_VALIDATORS = [

@@ -1,0 +1,190 @@
+<form [formGroup]="myForm" novalidate (ngSubmit)="saveEntryJournal(myForm)">
+  <button type="button"
+          *ngIf="returnUrl"
+          (click)="return()" class="btn btn-default btn-with-icon">
+            <i class="ion-ios-undo"></i>{{'form_action.return'|translate}}
+  </button>
+
+
+  <div class="btn-group pull-right" role="group" aria-label="Individual">
+    <button *ngIf="formAction[prefix + '01'] && (tcode != prefix + '01')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-add"></i>{{'shared.individual.create'}}</button>
+    <button *ngIf="formAction[prefix + '03'] && (tcode != prefix + '03') && (tcode != prefix + '01')"  type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-create"></i>{{'shared.individual.edit'}}</button>
+    <button *ngIf="formAction[prefix + '04'] && (tcode != prefix + '04') && (tcode != prefix + '01')"  type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-toggle-filled"></i>{{'shared.individual.disable'}}</button>
+    <button *ngIf="formAction[prefix + '05'] && (tcode != prefix + '05') && (tcode != prefix + '01')"  type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-toggle"></i>{{'shared.individual.enable'}}</button>
+    <button *ngIf="formAction[prefix + '06'] && (tcode != prefix + '06') && (tcode != prefix + '01')"  type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-clock"></i>{{'shared.individual.view_change'}}</button><!---->
+    <button *ngIf="formEdit"
+            type="submit" class="btn btn-primary btn-with-icon"
+            [disabled]="!myForm.valid">
+              <i class="ion-forward"></i>{{'form_action.submit'|translate}}
+    </button>
+  </div>
+
+  <div class="clearfix"></div>
+  <br />
+
+  <!-- MJE HEADER -->
+  <ba-card title="Header" baCardClass="with-scroll"> <!--  -->
+    <div class="row">
+      <div class="form-group col-sm-2">
+        <label>{{'object.entry'|translate}} {{'prop.date'|translate}} <small *ngIf="!myForm.controls.entryDate.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+        <!--<input type="date" class="form-control" name="entryDate" formControlName="entryDate" /> -->
+        <input type="date" class="form-control" name="entryDate" formControlName="entryDate" useValueAsDate>
+      </div>
+
+      <div class="form-group col-sm-10">
+        <label>{{'prop.desc'|translate}} <small *ngIf="!myForm.controls.desc.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+        <input type="text" class="form-control" name="desc" formControlName="desc" />
+      </div>
+
+      <div class="form-group col-sm-3"> <!--hidden-->
+        <bc-combo-box title="{{'object.lge'|translate}}" name="lge" formControlName="lge" [list]="lgeList" [f1]="'lge'" [f2]="'desc'"></bc-combo-box>
+        <small *ngIf="!myForm.controls.lge.valid" class="text-warning">{{'validation.is_required'|translate}}</small>
+        <!-- Alternative
+        <label>{{'object.lge'|translate}}</label>
+        <input type="text" class="form-control" name="lge" formControlName="lge" />
+        <small *ngIf="!myForm.controls.lge.valid" class="text-warning">{{'validation.is_required'|translate}}</small>
+        -->
+      </div>
+
+      <div class="form-group col-sm-3"> <!--hidden-->
+        <label>{{'object.user'|translate}} <small *ngIf="!myForm.controls.user.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+        <input type="text" class="form-control" name="user" formControlName="user" />
+      </div>
+
+    </div>
+  </ba-card>
+  <!-- ./MJE HEADER -->
+
+  <!-- MJE CONTENT -->
+  <div formArrayName="items">
+    <div *ngFor="let entry of myForm.controls.items.controls; let i=index">
+      <ba-card title="{{'prop.item'|translate}} {{i+1}}" baCardClass="with-scroll"> <!--  -->
+        <div [formGroupName]="i">
+          <mje-form-entry-item  [formEdit]="formEdit"
+                                [item]="i"
+                                [formGroup]="myForm.controls.items.controls[i]"
+                                [accList]="accList"
+                                [objTypeList]="objTypeList"
+                                (itemEvent)="handleItemEvent($event)"
+                                [refArray]="refArray">
+          </mje-form-entry-item>
+        </div>
+        <button *ngIf="formEdit && (myForm.controls.items.controls.length >1)"
+                (click)="removeEntryItem(i)"
+                type="button" class="btn btn-danger pull-right">
+                {{'form_action.remove'|translate}}
+        </button>
+      </ba-card>
+    </div>
+  </div>
+
+  <div *ngIf="formEdit" class="margin-20">
+    <a (click)="addEntryItem()" style="cursor: pointer">{{'form_action.add'|translate}} {{'object.entry'|translate}} +</a>
+  </div>
+  <div class="clearfix"></div>
+  <br />
+
+  <button type="button" *ngIf="returnUrl" (click)="return()" class="btn btn-default btn-with-icon" translate><i class="ion-ios-undo"></i>{{'form_action.return'}}</button>
+  <button *ngIf="formEdit" type="submit" class="btn btn-primary pull-right" [disabled]="!myForm.valid">{{'form_action.submit'|translate}}</button>
+  <div class="clearfix"></div>
+  <br />
+
+</form>
+<!-- ./ MJE CONTENT -->
+
+<!-- DEBUG -->
+
+<div>
+  <ba-card title="DEBUG" baCardClass="with-scroll">
+    <pre>Is myForm valid?: <br>{{myForm.valid | json}}</pre>
+    <pre>form value: <br>{{myForm.value | json}}</pre>
+    <pre>transaction value: <br>{{entryJournal | json}}</pre>
+  </ba-card>
+</div>
+
+<!-- ./DEBUG -->
+
+<!-- BEGIN TEST DATA -->
+<!--
+<pre>
+  {{myForm.valid}}
+</pre>
+<div class="form-group">
+  <label>Name (Text):</label>
+  <input type="text" class="form-control" name="name" [(ngModel)]="test.name" />
+</div>
+
+<div class="form-group">
+  <label>Age (Number):</label>
+  <input type="number" class="form-control" name="age" [(ngModel)]="test.age" />
+</div>
+
+<div class="input-demo radio-demo row">
+    <div class="col-md-4">
+      <label>Gender (Radio):</label>
+    </div>
+    <div class="col-md-4" *ngFor="let gender of genders">
+      <label class="radio-inline custom-radio nowrap">
+        <input type="radio" name="gender" [(ngModel)]="test.gender" [value]="gender.value" />
+        <span>{{gender.display}}</span> <!-- <span translate>{{'general.forms.option1'}}</span> --> <!--
+      </label>
+    </div>
+</div>
+
+<div class="form-group">
+  <label>Role (Select-Primitive type):</label>
+  <select class="form-control" name="role" [(ngModel)]="test.role">
+    <option *ngFor="let role of roles" [value]="role.value">
+      {{role.display}}
+    </option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label>Theme (Select-Object):</label>
+  <select class="form-control" name="theme" [(ngModel)]="test.theme">
+    <option *ngFor="let theme of themes" [ngValue]="theme">
+      {{theme.display}}
+    </option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label>Topics (Multiple select):</label>
+  <select multiple class="form-control" name="topics" [(ngModel)]="test.topics">
+    <option *ngFor="let topic of topics" [value]="topic.value">
+      {{topic.display}}
+    </option>
+  </select>
+</div>
+
+<div class="checkbox-demo-row">
+  <div class="input-demo checkbox-demo row">
+    <ba-multi-checkbox [(ngModel)]="checkboxModel" [propertiesMapping]="checkboxPropertiesMapping"></ba-multi-checkbox>
+  </div>
+</div>
+
+<ba-multi-checkbox [(ngModel)]="checkboxModel1" [propertiesMapping]="checkboxPropertiesMapping1"></ba-multi-checkbox>
+
+
+<div class="checkbox-demo-row container-content">
+  <div class="checkbox">
+    <label class="checkbox-inline custom-checkbox nowrap">
+      <input type="checkbox" class="form-control" name="isActive" [(ngModel)]="test.isActive" />
+      <span>Is Active</span>
+    </label>
+  </div>
+</div>
+
+<div class="checkbox-demo-row container-content">
+  <input type="hidden" class="form-control" name="toggle" />
+  <div>
+    <label class="checkbox-inline custom-checkbox nowrap">
+      <input type="checkbox" class="form-control"
+        [checked]="test.toggle===toggles[0].value"
+        (change)="$event.target.checked? (test.toggle = toggle[0].value): (test.toggle = toggle[1].value)" />
+        <span>{{toggles[0].display}}</span>
+    </label>
+  </div>
+</div>
+<!-- END TEST DATA -->

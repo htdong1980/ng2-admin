@@ -22,6 +22,14 @@
   background-color: #00a65a !important;
 }
 
+.callout.callout-native {
+  background-color: inherit !important;
+  border-radius: 2px !important;
+  border-top: 1px solid #F2EFEF !important;
+  border-right: 1px solid #F2EFEF !important;
+  border-bottom: 1px solid #F2EFEF !important;
+}
+
 .callout {
   border-radius: 3px;
   margin: 0 0 20px 0;
@@ -55,5 +63,8 @@
   }
   &.callout-success {
     border-color: #00733e;
+  }
+  &.callout-native {
+    border-color: #F2EFEF;
   }
 }

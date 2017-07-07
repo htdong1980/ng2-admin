@@ -1,0 +1,57 @@
+@import "../../../../../../theme/sass/conf/conf";
+
+.modal-buttons .btn {
+  margin-right: 20px;
+}
+
+.modal-content {
+  background-color: $twitter-color;
+  color: white; // $dropdown-text;
+}
+
+.dark-modal .modal-content {
+  background-color: #292b2c;
+  color: white;
+}
+.dark-modal .close {
+  color: white;
+}
+
+:host /deep/ .completer-input {
+  background: transparent;
+	border: transparent;
+	width: 100% !important;
+	color: #ffffff;
+}
+
+:host /deep/ .completer-input:focus {
+	outline: none !important;
+	border-color: transparent;
+}
+
+:host /deep/ .completer-dropdown-holder {
+    position: absolute;
+    // top: 50%;
+    background: white;
+}
+
+:host /deep/ .completer-dropdown {
+    width: 100% !important;
+    position: relative !important;
+    background-color: transparent;
+}
+
+:host /deep/ .completer-row {
+    display: inherit;
+}
+
+:host /deep/ .completer-row p {
+    position: relative;
+    top: 50%;
+    transform: translateY(50%);
+}
+
+:host /deep/ .completer-selected-row {
+    background-color: $primary-light;
+    color: #ffffff;
+}
