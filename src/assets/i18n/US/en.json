@@ -1,54 +1,108 @@
 {
-  "shared":{
+  "a2z": {
     "about": "About",
-
-    "individual": {
-      "title": "Individual processing",
-      "create": "Create",
-      "view": "View",
-      "edit": "Edit",
-      "disable": "Disable",
-      "enable": "Enable",
-      "view_change": "View Changes"
-    },
-
-    "collective": {
-      "title": "Collective processing",
-      "upload": "Upload",
-      "extract": "Extract",
-      "update": "Update",
-      "inactivate": "Inactivate",
-      "activate": "Activate",
-      "history": "History"
-    },
-
-    "table": {
-      "showing": "Showing",
-      "to": "to",
-      "of": "of",
-      "records": "records"
-    },
-
-    "return": "Return",
-
-    "lge": "Legal Entity",
-
-    "page_size": "Page Size",
-    "filter": "Filter",
-    "action": "Action",
-
-    "doc_id": "Document ID",
-    "up_file": "Upload File",
-    "doc_date": "Document Date",
-    "entry_date": "Entry Date",
+    "acc": "Account",
+    "amount": "Amount",
+    "audit": "Audit",
+    "assignment": "Assignment",
+    "browse": "Browse",
+    "cbn": "Cabinet",
+    "crm": "CRM",
+    "crc": "Currency",
+    "create_by": "Create by",
+    "created_with": "Created with",
+    "config": "CONFIGURATION",
+    "date": "Date",
     "desc": "Description",
-    "create_by": "Create by"
-
+    "detail": "Detail",
+    "doc": "Doc.",
+    "document": "Document",
+    "document_date": "Document Date",
+    "doc_id": "Document ID",
+    "edit": "Edit",
+    "ebuy": "eBUY",
+    "email": "Email",
+    "entry": "Entry",
+    "entry_date": "Entry Date",
+    "error": "Error",
+    "error_disable": "Error occurs when disabling document!",
+    "error_enable": "Error occurs when enabling document!",
+    "error_post": "Error occurs when posting document!",
+    "error_revert": "Error occurs when reverting document!",
+    "forgot_password": "Forgot password?",
+    "file": "File",
+    "firstname": "Firstname",
+    "have_account": "Already have an account? Sign in!",
+    "have_password": "Already have password? Sign in!",
+    "header": "Header",
+    "help": "Help",
+    "general": "GENERAL",
+    "gksbs": "GK|SBS",
+    "home": "Home",
+    "hrm": "Human Capital Mgnt",
+    "id": "ID",
+    "item": "Item",
+    "jnl": "Journal",
+    "landing_page": "Landing Page",
+    "lastname": "Lastname",
+    "lge": "Legal Entity",
+    "loading": "Loading",
+    "login": "Login",
+    "mtd": "MASTER DATA",
+    "more_info": "More info",
+    "news": "News",
+    "notification": "Notifications",
+    "obj": "Obj.",
+    "object": "Object",
+    "pages": "Pages",
+    "path":"Path",
+    "password": "Password",
+    "password_not_match": "Password don't match",
+    "po": "Purchase Order",
+    "pr": "Purchase Request",
+    "preparer": "Preparer",
+    "profile": "Profile",
+    "tcode": "TRANSACTIONS",
+    "test": "TEST AREAS",
+    "token": "Token",
+    "tool": "Tools",
+    "transaction": "Transaction",
+    "transaction_execute": "Transaction...",
+    "system_administration": "System Administration",
+    "status": "Status",
+    "search": "Search",
+    "setting": "Settings",
+    "signup": "Sign up",
+    "signin": "Sign in",
+    "signout": "Sign out",
+    "success": "Success",
+    "success_create": "Create the document successfully.",
+    "success_disable": "Disable the document successfully.",
+    "success_enable": "Enable the document successfully.",
+    "success_post": "Post the document successfully.",
+    "success_revert": "Revert the document successfully.",
+    "system": "SYSTEM",
+    "register": "Register",
+    "registration": "Registration",
+    "return": "Return",
+    "ref": "Ref.",
+    "reference": "Reference",
+    "reset_password": "Reset Password",
+    "repeat": "Repeat",
+    "fx": "FX",
+    "up_file": "Upload File",
+    "user": "User",
+    "username": "Username",
+    "view": "View",
+    "workflow": " WORKFLOWS"
   },
 
   "form_action": {
+    "action": "Action",
     "return": "Return",
     "add": "Add",
+    "collapse": "Collapse",
+    "expand": "Expand",
     "remove": "Remove",
     "submit": "Submit",
     "save": "Save",
@@ -59,26 +113,6 @@
     "is_required": "Required."
   },
 
-  "object": {
-    "account": "Account",
-    "crc": "Currency",
-    "doc": "Document",
-    "entry": "Entry",
-    "lge": "Legal Entity",
-    "user": "User",
-    "object": "Object"
-  },
-
-  "prop": {
-    "item": "item",
-    "amount": "Amount",
-    "date": "Date",
-    "desc": "Description",
-    "fx": "FX",
-    "ref": "Reference",
-    "search": "Search"
-  },
-
   "ref_modal": {
     "header": "Reference",
     "content": "Static modal, backdrop click will not close it. Click × or confirmation button to close modal",
@@ -86,132 +120,167 @@
     "ref_title": "Ref Title"
   },
 
-  "sidebar": {
-    "general": "GENERAL",
-    "category": {
-      "title": "CATEGORY",
-      "myapproval": {
-        "title": "My APPROVAL",
-        "inbox": "Inbox",
-        "outbox": "Outbox"
-      },
-      "myrequests": {
-        "title": "My REQUESTS",
-        "draft": "Draft",
-        "inprogress": "In progress",
-        "documenting": "Documenting",
-        "finished": "Finished"
-      }
-    },
-    "workflow": "WORKFLOW",
-    "transaction": "TRANSACTION",
-    "masterdata": "MASTER DATA",
-    "config": "CONFIGURATION",
-    "library": "LIBRARY"
+  "individual": {
+    "title": "Individual processing",
+    "create": "Create",
+    "view": "View",
+    "edit": "Edit",
+    "disable": "Disable",
+    "enable": "Enable",
+    "view_change": "View Changes",
+    "post": "Post",
+    "revert": "Revert"
   },
 
-  "tcode": {
-    "news01": "Create News",
-    "news10": "News Management",
-    "news80": "Bulletin Board",
-    "sop80": "GeoDe+ (SOP)",
-    "cnt80": "Contact List",
-
-    "vdr": "Vendor",
-    "vdr_menu": "VENDOR",
-    "vdr00": "Vendor Management",
-    "vdr01": "Vendor Create",
-    "vdr02": "Vendor View",
-    "vdr03": "Vendor Edit",
-    "vdr04": "Vendor Disable",
-    "vdr05": "Vendor Enable",
-    "vdr06": "Vendor History",
-    "vdr11": "Vendors Upload",
-    "vdr12": "Vendors Extract",
-    "vdr13": "Vendors Upsert",
-    "vdr14": "Vendors Disable",
-    "vdr15": "Vendors Enable",
-    "vdr16": "Vendors Changes",
-    "vdr20": "Vendor Request",
-    "vdr90": "Vendor Properties",
-    "vdr91": "Vendor Approval",
-
-    "mje": "Manual Journal Entry",
-    "mje_menu": "MJE",
-    "mje00": "MJE[00]-Summary",
-    "mje01": "MJE[01]-Create",
-    "mje02": "MJE[02]-View",
-    "mje03": "MJE[03]-Edit",
-    "mje04": "MJE[04]-Disable",
-    "mje05": "MJE[05]-Enable",
-    "mje06": "MJE[06]-View changes",
-    "mje11": "MJE[11]-Upload",
-    "mje12": "MJE[12]-Extract",
-    "mje13": "MJE[13]-Upsert",
-    "mje14": "MJE[14]-Inactivate",
-    "mje15": "MJE[15]-Activate",
-    "mje16": "MJE[16]-History",
-    "mje20": "MJE[20]-Request",
-    "mje90": "MJE[90]-Properties",
-    "mje91": "MJE[91]-Approval",
-
-    "ctm": "CUSTOMER",
-    "ctm00": "Customer Management",
-    "ctm01": "Create Customer",
-    "ctm02": "View Customer",
-    "ctm03": "Edit Customer",
-    "ctm04": "Disable Customer",
-    "ctm05": "Enable Customer",
-    "ctm06": "Customer History",
-    "ctm10": "Customer Request",
-    "ctm11": "Upload Customers",
-    "ctm12": "Extract Customers",
-    "ctm13": "Update Customers",
-    "ctm14": "Disable Customers",
-    "ctm15": "Enable Customers",
-    "ctm16": "Customers History",
-    "ctm20": "Customer Request",
-    "ctm90": "Properties",
-    "ctm91": "Approval Matrix"
+  "collective": {
+    "title": "Collective processing",
+    "upload": "Upload",
+    "extract": "Extract",
+    "update": "Update",
+    "inactivate": "Mass disable",
+    "activate": "Mass enable",
+    "history": "History"
   },
 
-  "general": {
-    "gk": "GK",
-    "sbs": "SBS",
-    "gk_sbs": "GK| SBS",
-    "home": "Home",
-    "menu": {
-      "pages": "Pages",
-      "landingpage": "Landing Page",
-      "login": "Login",
-      "reset": "Reset",
-      "register": "Register"
-    },
-    "created_with": "Created with"
+  "table": {
+    "action": "Action",
+    "page_size": "Page Size",
+    "filter": "Filter",
+    "showing": "Showing",
+    "to": "to",
+    "of": "of",
+    "records": "records"
   },
 
-  "adminLTE":{
-    "more_info": "More info"
+  "system": {
+    "00": "[00]-Home Page",
+    "50": "[50]-Forms"
   },
 
-  "login": {
-    "title": "GK|SBS",
-    "signup_link": "Sign up!",
-    "firstname": "Firstname",
-    "lastname": "Lastname",
-    "username": "Username",
-    "email": "Email",
-    "password": "Password",
-    "sign_in": "Sign in",
-    "sign_up": "Sign up",
-    "reset": "Reset Password",
-    "have_password": "Already have password? Sign in!",
-    "have_account": "Already have an account? Sign in!",
-    "forgot_password": "Forgot password?",
-    "sign_from_app_text": "or Sign in with one click",
-    "share_on_facebook": "Share on Facebook",
-    "share_on_twitter": "Share on Twitter",
-    "share_on_google_plus": "Share on Google Plus"
+  "t_code": {
+    "00": "[00]-Summary",
+    "10": "[10]-Individual",
+    "11": "[11]-Create",
+    "12": "[12]-View",
+    "13": "[13]-Edit",
+    "14": "[14]-Disable",
+    "15": "[15]-Enable",
+    "16": "[16]-View changes",
+    "17": "[17]-Post",
+    "18": "[18]-Revert",
+    "20": "[20]-Collective",
+    "21": "[21]-Upload",
+    "22": "[22]-Extract",
+    "23": "[23]-Upsert",
+    "24": "[24]-Mass disable",
+    "25": "[25]-Mass enable",
+    "26": "[26]-History",
+    "27": "[27]-Mass post",
+    "28": "[28]-Mass revert",
+    "50": "[50]-Workflow",
+    "51": "[51]-New request",
+    "51": "[51]-Change request",
+    "60": "[60]-Summary Report List",
+    "61": "[61]-Summary Report",
+    "68": "[65]-Movement Report",
+    "69": "[69]-Aging Report",
+    "70": "[70]-Detail Report List",
+    "71": "[71]-Detail Report",
+    "80": "[80]-Dashboard",
+    "90": "[90]-Administration",
+    "90": "[91]-Properties",
+    "91": "[92]-Approval"
+  },
+
+  "asm": {
+    "lower": "asm",
+    "upper": "ASM",
+    "desc": "Audit System",
+    "audit_assignment_management": "Audit Assignments Management",
+    "audit_package_management": "Audit Packages Management",
+    "backup_restore_audit_file": "Backup and Restore Audit Files",
+    "cabinet_management": "Cabinets Management",
+    "inforbase_management": "Inforbase Management"
+  },
+
+  "cbn": {
+    "lower": "cbn",
+    "upper": "CBN",
+    "desc": "Cabinet"
+  },
+
+  "crm": {
+    "lower": "crm",
+    "upper": "CRM",
+    "desc": "Customer Relationship"
+  },
+
+  "ebuy": {
+    "lower": "ebuy",
+    "upper": "eBUY",
+    "desc": "e-BUY"
+  },
+
+  "erm": {
+    "lower": "erm",
+    "upper": "ERM",
+    "desc": "Enterprise Risk"
+  },
+
+  "err": {
+    "desc": "Error",
+    "err01": "Permission Required!",
+    "err01_message": "You do not have sufficient permission to access requested resources.",
+    "err02": "Not Found!",
+    "err02_message": "Requested resource is not available.",
+    "err03": "Error!",
+    "err03_message": "Error encountered during process."
+  },
+
+  "hcm": {
+    "lower": "hcm",
+    "upper": "HCM",
+    "desc": "Human Capital"
+  },
+
+  "mcat": {
+    "lower": "mcat",
+    "upper": "MCAT",
+    "desc": "My Categories",
+    "mcat00": "[00]-Summary",
+    "mcat30": "[30]-My Approval",
+    "mcat30_mnu": "MY APPROVAL",
+    "mcat31": "[31]-Inbox",
+    "mcat31_mnu": "Inbox",
+    "mcat32": "[32]-Outbox",
+    "mcat32_mnu": "Outbox",
+    "mcat40": "[40]-My Requests",
+    "mcat40_mnu": "MY REQUESTS",
+    "mcat41": "[41]-Draft",
+    "mcat41_mnu": "Draft",
+    "mcat42": "[42]-In progress",
+    "mcat42_mnu": "In progress",
+    "mcat43": "[43]-Documenting",
+    "mcat43_mnu": "Documenting",
+    "mcat44": "[44]-Finished",
+    "mcat44_mnu": "Finished"
+  },
+
+  "mje": {
+    "lower": "mje",
+    "upper": "MJE",
+    "desc": "Manual Journal Entry"
+  },
+
+  "prime": {
+    "lower": "prime",
+    "upper": "PRIME",
+    "desc": "Prime NG"
+  },
+
+  "vdr": {
+    "lower": "vdr",
+    "upper": "VDR",
+    "desc": "Vendor"
   }
-
 }

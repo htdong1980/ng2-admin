@@ -1,13 +1,20 @@
 <div [formGroup]="entryItem">
   <div class="row">
-    <div class="form-group col-sm-2">
-      <label>{{'object.doc'|translate}} {{'prop.date'|translate}} <small *ngIf="!entryItem.controls.docDate.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
-      <input type="date" class="form-control" name="docDate" formControlName="docDate" useValueAsDate>
+
+    <div class="form-group col-sm-3">
+      <label>{{'prop.desc'|translate}} <small [hidden]="entryItem.controls.docRef.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <input type="text" class="form-control" name="docRef" formControlName="docRef" />
     </div>
 
-    <div class="form-group col-sm-10">
-      <label>{{'prop.desc'|translate}} <small [hidden]="entryItem.controls.desc.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
-      <input type="text" class="form-control" name="desc" formControlName="desc" />
+    <div class="form-group col-sm-3">
+      <label>{{'object.doc'|translate}} {{'prop.date'|translate}} <small *ngIf="!entryItem.controls.docDate.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <bc-date-picker-popup formControlName="docDate" [formEdit]="formEdit"></bc-date-picker-popup>
+    </div>
+
+
+    <div class="form-group col-sm-6">
+      <label>{{'prop.desc'|translate}} <small [hidden]="entryItem.controls.docDesc.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <input type="text" class="form-control" name="docDesc" formControlName="docDesc" />
     </div>
 
     <div class="form-group col-sm-4">
@@ -37,10 +44,12 @@
 
   </div>
 
+
   <div class="clearfix"></div>
 
   <!-- MJE FORM ENTRY REFERENCE -->
-  <bc-callout *ngIf="(entryItem.controls.refs.controls.length >0)" class="col-xlg-12 col-xl-12 col-lg-12 col-sm-12 col-12" bcCalloutType="native" header="References">
+  <bc-simple-card *ngIf="(entryItem.controls.refs.controls.length >0)"
+                  title="Reference">
     <div formArrayName="refs">
       <div class="row">
         <div class="col-md-3" *ngFor="let entryItemRef of entryItem.controls.refs.controls; let j=index">
@@ -55,7 +64,7 @@
       </div>
 
     </div>
-  </bc-callout>
+  </bc-simple-card>
   <div *ngIf="formEdit" class="margin-20">
     <a (click)="addRef()" style="cursor: pointer">{{'form_action.add'|translate}} {{'prop.ref'|translate}} +</a>
   </div>

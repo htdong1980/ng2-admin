@@ -1,6 +1,8 @@
 import { EmailValidator, EqualPasswordsValidator } from '../../theme/validators';
 import { UserService } from '../../core/services/user.service';
 
+import { BcUtilsService } from '../../theme/services/bcUtils';
+
 import { Component } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -20,7 +22,7 @@ export class Register {
   public password: AbstractControl;
   public repeatPassword: AbstractControl;
   public passwords: FormGroup;
-
+  public token: AbstractControl;
   public submitted: boolean = false;
 
   // Add by HTD
@@ -30,7 +32,11 @@ export class Register {
   constructor(private router: Router,
         private userService: UserService,
         // private alertService: AlertService,
-        private fb: FormBuilder) {
+        private fb: FormBuilder,
+        private utilsService: BcUtilsService) {
+
+    // get token
+    this.model.token = this.utilsService.getToken();
 
     this.form = fb.group(
       {
@@ -47,6 +53,7 @@ export class Register {
             validator: EqualPasswordsValidator.validate('password', 'repeatPassword'),
           },
         ),
+        'token': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
     });
 
     this.firstname = this.form.controls['firstname'];
@@ -56,12 +63,12 @@ export class Register {
     this.passwords = <FormGroup> this.form.controls['passwords'];
     this.password = this.passwords.controls['password'];
     this.repeatPassword = this.passwords.controls['repeatPassword'];
+    this.token = this.form.controls['token'];
   }
 
   public onSubmit(values: Object): void {
     this.submitted = true;
     if (this.form.valid) {
-      // your code goes here
       // console.log(values);
       this.register();
     }
@@ -70,6 +77,7 @@ export class Register {
   // Add by HTD
   register() {
     this.loading = true;
+    this.utilsService.setToken(this.model.token);
     this.userService.create(this.model)
         .subscribe(
             data => {

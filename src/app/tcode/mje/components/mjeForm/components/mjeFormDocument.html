@@ -1,0 +1,83 @@
+<div [formGroup]="docItem">
+  <div class="row">
+
+    <div class="form-group col-sm-3">
+      <label>{{'a2z.doc'|translate}} {{'a2z.ref'|translate}} <small [hidden]="docItem.controls.ref.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <input type="text" class="form-control" name="ref" formControlName="ref" />
+    </div>
+
+    <div class="form-group col-sm-3">
+      <label>{{'a2z.doc'|translate}} {{'a2z.date'|translate}} <small *ngIf="!docItem.controls.date.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <bc-date-picker-popup formControlName="date" [formEdit]="formEdit"></bc-date-picker-popup>
+    </div>
+
+    <div class="form-group col-sm-6">
+      <label>{{'a2z.document'|translate}} {{'a2z.desc'|translate}} <small [hidden]="docItem.controls.desc.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <input type="text" class="form-control" name="desc" formControlName="desc" />
+    </div>
+
+  </div>
+
+
+  <div class="clearfix"></div>
+
+  <!-- JOURNAL -->
+  <div formArrayName="jnls">
+    <div *ngFor="let jnl of docItem.controls.jnls.controls; let j=index">
+        <bc-simple-card title="{{'a2z.jnl'|translate}} {{item+1}}.{{j+1}}">
+          <div class="form-group" [formGroupName]="j">
+            <mje-form-journal [formEdit]="formEdit"
+                              [item]="j"
+                              [group]="docItem.controls.jnls.controls[j]"
+                              [accList]="accList"
+                              [objTypeList]="objTypeList"
+                              (jnlEvent)="handleObjEvent($event)"
+                              [refArray]="refArray">
+            </mje-form-journal>
+
+            <div class="margin-20">
+              <button *ngIf="formEdit && (docItem.controls.jnls.controls.length >=1)"
+                      (click)="removeJnl(j)"
+                      type="button" class="btn btn-warning pull-right">
+                      {{'form_action.remove'|translate}} {{'a2z.jnl'|translate}}
+              </button>
+            </div>
+            <br />
+
+          </div>
+        </bc-simple-card>
+
+    </div>
+    <div *ngIf="formEdit" class="margin-20">
+      <a (click)="addJnl()" style="cursor: pointer">{{'form_action.add'|translate}} {{'a2z.jnl'|translate}} +</a>
+    </div>
+  </div>
+
+  <!-- MJE FORM ENTRY REFERENCE -->
+  <!--
+  <bc-simple-card *ngIf="(docItem.controls.jnls.controls.length >0)"
+                  title="{{'a2z.jnl'|translate}}">
+    <div formArrayName="jnls">
+      <div class="row">
+
+        <div class="col-md-3" *ngFor="let docItemRef of docItem.controls.refs.controls; let j=index">
+          <mje-form-entry-item-ref  [formEdit]="formEdit"
+                                    [ref]="j"
+                                    [group]="docItem.controls.refs.controls[j]"
+                                    [objTypeList]="objTypeList"
+                                    (refEvent)="handleRefEvent($event)"
+                                    [refArray]="refArray">
+          </mje-form-entry-item-ref>
+        </div>
+
+      </div>
+
+    </div>
+  </bc-simple-card>
+  <div *ngIf="formEdit" class="margin-20">
+    <a (click)="addRef()" style="cursor: pointer">{{'form_action.add'|translate}} {{'prop.ref'|translate}} +</a>
+  </div>
+  -->
+  <!-- ./ MJE FORM ENTRY REFERENCE -->
+
+</div>

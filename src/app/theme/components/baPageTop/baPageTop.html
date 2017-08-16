@@ -6,7 +6,7 @@
   <div class="search">
     <form (keydown)="keyDownFunction($event)">
       <i class="ion-ios-search-strong"></i>
-      <input id="searchInput" type="text" placeholder="Search for..." [(ngModel)]="tcodeExecution" name="tcode">
+      <input id="searchInput" type="text" placeholder="{{'a2z.transaction_execute'|translate}}" [(ngModel)]="tcodeExecution" name="tcode">
     </form>
   </div>
 
@@ -16,9 +16,9 @@
         <img src="{{ ( 'Nasta' | baProfilePicture ) }}">
       </a>
       <ul class="dropdown-menu top-dropdown-menu profile-dropdown" aria-labelledby="user-profile-dd">
-        <li class="dropdown-item"><a href><i class="fa fa-user"></i>Profile</a></li>
-        <li class="dropdown-item"><a href><i class="fa fa-cog"></i>Settings</a></li>
-        <li class="dropdown-item"><a href (click)="logOut()" class="signout"><i class="fa fa-power-off"></i>Sign out</a></li>
+        <li class="dropdown-item"><a href><i class="fa fa-user"></i>{{'a2z.profile'|translate}}</a></li>
+        <li class="dropdown-item"><a href><i class="fa fa-cog"></i>{{'a2z.setting'|translate}}</a></li>
+        <li class="dropdown-item"><a href (click)="logOut()" class="signout"><i class="fa fa-power-off"></i>{{'a2z.signout'|translate}}</a></li>
       </ul>
     </div>
     <ba-msg-center></ba-msg-center>

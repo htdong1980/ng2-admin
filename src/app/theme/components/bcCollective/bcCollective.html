@@ -1,13 +1,27 @@
-<div class="btn-group-example">
-  <h5 class="panel-subtitle" translate> {{'shared.collective.title'}} </h5>
+<div *ngIf="!collapse" class="btn-group-example">
+  <h5 class="panel-subtitle" translate> {{'collective.title'}} </h5>
   <div class="btn-group" role="group" aria-label="Collective">
+    <button *ngIf="checkTCodeViaAction('21')" (click)="executeTCodeViaAction('21')" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-upload"></i>{{'collective.upload'}}</button>
+    <button *ngIf="checkTCodeViaAction('22')" (click)="executeTCodeViaAction('22')" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-download"></i>{{'collective.extract'}}</button>
+    <button *ngIf="checkTCodeViaAction('23')" (click)="executeTCodeViaAction('23')" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-cloud-done"></i>{{'collective.update'}}</button>
+    <button *ngIf="checkTCodeViaAction('24')" (click)="executeTCodeViaAction('24')" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-cloud"></i>{{'collective.inactivate'}}</button>
+    <button *ngIf="checkTCodeViaAction('25')" (click)="executeTCodeViaAction('25')" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-cloud-outline"></i>{{'collective.activate'}}</button>
+    <button *ngIf="checkTCodeViaAction('26')" (click)="executeTCodeViaAction('26')" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-time"></i>{{'collective.history'}}</button>
+    <!--
     <ng-container *ngFor="let right of rightsArray">
-      <button *ngIf="right.tcode== prefix + '11'" (click)="onClick(right.tcode)" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-upload"></i>{{'shared.collective.upload'}}</button>
-      <button *ngIf="right.tcode== prefix + '12'" (click)="onClick(right.tcode)" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-download"></i>{{'shared.collective.extract'}}</button>
-      <button *ngIf="right.tcode== prefix + '13'" (click)="onClick(right.tcode)" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-cloud-done"></i>{{'shared.collective.update'}}</button>
-      <button *ngIf="right.tcode== prefix + '14'" (click)="onClick(right.tcode)" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-cloud"></i>{{'shared.collective.inactivate'}}</button>
-      <button *ngIf="right.tcode== prefix + '15'" (click)="onClick(right.tcode)" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-cloud-outline"></i>{{'shared.collective.activate'}}</button>
-      <button *ngIf="right.tcode== prefix + '16'" (click)="onClick(right.tcode)" type="button" class="btn btn-danger btn-with-icon" translate><i class="ion-android-time"></i>{{'shared.collective.history'}}</button>
     </ng-container>
+    -->
   </div>
+</div>
+
+<div *ngIf="collapse" class="btn-group" ngbDropdown>
+  <button type="button" class="btn btn-danger" ngbDropdownToggle>{{'collective.title'|translate}}</button>
+  <ul class="dropdown-menu">
+    <li *ngIf="checkTCodeViaAction('21')" (click)="executeTCodeViaAction('21')" class="dropdown-item"><a><i class="ion-android-upload"></i> {{'collective.upload'|translate}}</a></li>
+    <li *ngIf="checkTCodeViaAction('22')" (click)="executeTCodeViaAction('22')" class="dropdown-item"><a><i class="ion-android-download"></i> {{'collective.extract'|translate}}</a></li>
+    <li *ngIf="checkTCodeViaAction('23')" (click)="executeTCodeViaAction('23')" class="dropdown-item"><a><i class="ion-android-cloud-done"></i> {{'collective.update'|translate}}</a></li>
+    <li *ngIf="checkTCodeViaAction('24')" (click)="executeTCodeViaAction('24')" class="dropdown-item"><a><i class="ion-android-cloud"></i></a> {{'collective.inactivate'|translate}}</li>
+    <li *ngIf="checkTCodeViaAction('25')" (click)="executeTCodeViaAction('25')" class="dropdown-item"><a><i class="ion-android-cloud-outline"></i></a> {{'collective.activate'|translate}}</li>
+    <li *ngIf="checkTCodeViaAction('26')" (click)="executeTCodeViaAction('26')" class="dropdown-item"><a><i class="ion-android-time"></i></a> {{'collective.history'|translate}}</li>
+  </ul>
 </div>

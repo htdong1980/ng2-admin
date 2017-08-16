@@ -1,5 +1,7 @@
+// Internal
 import { BcUtilsService } from '../../services/bcUtils';
 
+// External
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -10,13 +12,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./bcLead.scss'],
 })
 export class BcLead implements OnInit {
-  @Input() returnUrl: string;
   @Input() tcode: string;
 
+  canReturn: boolean = false;
   lgeList: Array<any>;
   lge: string = '';
   id: string = '';
   action: string = '';
+
   public myForm: FormGroup;             // form model
 
   constructor(
@@ -26,11 +29,13 @@ export class BcLead implements OnInit {
   ) { }
 
   ngOnInit () {
+    this.canReturn = this.utilsService.canReturn();
+    
     this.action = this.utilsService.extractAction(this.tcode);
 
-    const currentUser: any = this.getCurrentUser();
+    const currentUser: any = this.utilsService.getCurrentUser();
     this.lgeList = currentUser.lges;
-    this.lge = this.getWorkingLge();
+    this.lge = this.utilsService.getWorkingLge();
 
     this.myForm = this._fb.group({
       lge: [this.lge, [Validators.required]],
@@ -38,23 +43,24 @@ export class BcLead implements OnInit {
     });
   }
 
-  private getCurrentUser(): any {
-    return JSON.parse(localStorage.getItem('currentUser'));
-  }
-
-  private getWorkingLge(): string {
-    return localStorage.getItem('workingLge');
-  }
   /* To get value and navigate the link */
   private onClick(): void {
-    localStorage.setItem('workingLge', this.myForm.controls['lge'].value);
-    //const url: string = this.utilsService.urlForm(this.tcode, this.id);
-    //this.router.navigate([url]);
+    this.utilsService.setLocalStorage('workingLge', this.myForm.controls['lge'].value);
+
+    const url: string = this.utilsService.urlForm(this.tcode, this.myForm.controls['id'].value);
+    this.router.navigate([url]);
   }
+
+  /*
+  private onClick(code: string, value: string): void {
+    const url: string = this.utilsService.urlForm(this.prefix + code, value);
+    this.router.navigate([url, {returnUrl: this.currentUrl}]);
+  }
+  */
 
   /* To return the home of tcode */
   private return(): void {
-    this.router.navigate([this.returnUrl]);
+    this.utilsService.returnPrevious();
   }
 
 }

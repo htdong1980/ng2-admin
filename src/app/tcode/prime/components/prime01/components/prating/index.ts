@@ -1,0 +1,1 @@
+export * from './prating.component';

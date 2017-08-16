@@ -3,13 +3,17 @@ import { AppTranslationModule } from '../../app.translation.module';
 
 import { Mje } from './mje.component';
 import { Mje00Module } from './components/mje00/mje00.module';
-import { Mje01Module } from './components/mje01/mje01.module';
-import { Mje02Module } from './components/mje02/mje02.module';
-import { Mje03Module } from './components/mje03/mje03.module';
-import { Mje04Module } from './components/mje04/mje04.module';
-import { Mje05Module } from './components/mje05/mje05.module';
-import { Mje06Module } from './components/mje06/mje06.module';
+
 import { Mje11Module } from './components/mje11/mje11.module';
+import { Mje12Module } from './components/mje12/mje12.module';
+import { Mje13Module } from './components/mje13/mje13.module';
+import { Mje14Module } from './components/mje14/mje14.module';
+import { Mje15Module } from './components/mje15/mje15.module';
+import { Mje16Module } from './components/mje16/mje16.module';
+import { Mje17Module } from './components/mje17/mje17.module';
+import { Mje18Module } from './components/mje18/mje18.module';
+
+import { Mje21Module } from './components/mje21/mje21.module';
 // import { MjeForm } from './components/mjeForm';
 
 import { routing } from './mje.routing';
@@ -30,14 +34,17 @@ import { NgaModule } from '../../theme/nga.module';
     routing,
 
     Mje00Module,
-    Mje01Module,
-    Mje02Module,
-    Mje03Module,
-    Mje04Module,
-    Mje05Module,
-    Mje06Module,
 
     Mje11Module,
+    Mje12Module,
+    Mje13Module,
+    Mje14Module,
+    Mje15Module,
+    Mje16Module,
+    Mje17Module,
+    Mje18Module,
+
+    Mje21Module,
   ],
   declarations: [
     Mje,

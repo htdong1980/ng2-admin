@@ -1,0 +1,20 @@
+<div [formGroup]="objItem">
+  <div class="form-group"> <!-- col-sm-12 -->
+    <label>{{'object.object'|translate}} {{objIndex+1}}<small [hidden]="objItem.controls.desc.valid" class="text-warning"> ({{'validation.is_required'|translate}})</small></label>
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-warning" type="button" [ngClass]="{disabled : !formEdit}" (click)="formEdit && removeObj(objIndex)"><i class="ion-trash-b"></i></button>
+      </span>
+      <input type="text" class="form-control" name="desc" formControlName="desc" placeholder="{{'prop.search'|translate}}">
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" [ngClass]="{disabled : !formEdit}" (click)="formEdit && selectObj()"><i class="ion-magnet"></i></button>
+      </span>
+    </div>
+  </div>
+  <div class="form-group" hidden>
+    <input type="text" class="form-control alight-right" name="type" formControlName="type" />
+    <small [hidden]="objItem.controls.type.valid" class="text-warning">({{'validation.is_required'|translate}})</small>
+    <input type="text" class="form-control alight-right" name="id" formControlName="id" />
+    <small [hidden]="objItem.controls.id.valid" class="text-warning">({{'validation.is_required'|translate}})</small>
+  </div>
+</div>

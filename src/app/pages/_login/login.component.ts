@@ -1,8 +1,10 @@
+import { BcUtilsService } from '../../theme/services/bcUtils';
+
+import { AuthenticationService } from '../../core/services/authentication.service';
+
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
-
-import { AuthenticationService } from '../../core/services/authentication.service';
 
 @Component({
   selector: 'login',
@@ -14,6 +16,7 @@ export class Login {
   public form: FormGroup;
   public username: AbstractControl;
   public password: AbstractControl;
+  public token: AbstractControl;
   public submitted: boolean = false;
 
   model: any = {};
@@ -25,10 +28,14 @@ export class Login {
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private utilsService: BcUtilsService ) {
+
+    // get token
+    this.model.token = this.utilsService.getToken();
 
     // reset login status
-    this.authenticationService.logout();
+    this.utilsService.logOut();
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -36,16 +43,17 @@ export class Login {
     this.form = fb.group({
       'username': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
       'password': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
+      'token': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
     });
 
     this.username = this.form.controls['username'];
     this.password = this.form.controls['password'];
+    this.token = this.form.controls['token'];
   }
 
   public onSubmit(values: Object): void {
     this.submitted = true;
     if (this.form.valid) {
-      // your code goes here
       // console.log(values);
       this.login();
     }
@@ -53,9 +61,11 @@ export class Login {
 
   login() {
     this.loading = true;
-    this.authenticationService.login(this.model.username, this.model.password)
+    this.utilsService.setToken(this.model.token);
+    this.authenticationService.login(this.model.username, this.model.password, this.model.token)
       .subscribe(
         data => {
+          // this.alertService.success('Registration successful', true);
           this.router.navigate([this.returnUrl]);
         },
         error => {

@@ -46,8 +46,8 @@ export class BcComboBox implements ControlValueAccessor {
     }
   }
 
-  onSelect(deviceValue) {
-    this.value = deviceValue;
-    // console.log(deviceValue);
+  onSelect($event) {
+    this.value = $event.target.value;
+    console.log($event);
   }
 }

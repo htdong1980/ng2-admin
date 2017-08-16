@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+// Internal
+import { BcUtilsService } from '../../theme/services/bcUtils';
+
+// External
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'nga-blank',
@@ -6,8 +10,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./blank.scss'],
 })
 
-export class BlankComponent {
-  constructor() {
+export class BlankComponent implements OnInit {
+  constructor(
+    private utilsService: BcUtilsService,
+  ) {
+  }
+
+  ngOnInit() {
+    this.utilsService.trackHistory();
   }
 
 }

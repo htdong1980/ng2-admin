@@ -1,8 +1,0 @@
-<div class="form-group">
-  <label>{{'object.account'|translate}}</label>
-  <select class="form-control" (change)="onSelect($event.target.value)"> <!--   -->
-    <option *ngFor="let item of list" [value]="item['account']" [selected]="item['account'] == _value">
-      {{item['account']}} {{item['desc']}}
-    </option>
-  </select>
-</div>

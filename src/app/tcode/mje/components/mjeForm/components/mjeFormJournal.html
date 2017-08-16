@@ -1,0 +1,81 @@
+<div [formGroup]="jnlItem">
+  <div class="row">
+
+    <div class="form-group col-sm-4">
+      <label>{{'object.account'|translate}} <small [hidden]="jnlItem.controls.acc.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <bc-combo-box name="acc" formControlName="acc" [list]="accList" [f1]="'acc'" [f2]="'desc'"></bc-combo-box> <!-- title="{{'object.account'|translate}}" -->
+    </div>
+
+    <div class="form-group col-sm-2">
+      <label>{{'object.crc'|translate}} <small [hidden]="jnlItem.controls.crc.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <input type="text" class="form-control text-right" name="crc" formControlName="crc" />
+    </div>
+
+    <div class="form-group col-sm-2">
+      <label>{{'prop.amount'|translate}} <small [hidden]="jnlItem.controls.amt1.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <input type="text" class="form-control text-right" name="amt1" formControlName="amt1" />
+    </div>
+
+    <div class="form-group col-sm-2">
+      <label>{{'prop.fx'|translate}} <small [hidden]="jnlItem.controls.fx.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <input type="text" class="form-control text-right" name="fx" formControlName="fx" />
+    </div>
+
+    <div class="form-group col-sm-2">
+      <label>{{'prop.amount'|translate}} <small [hidden]="jnlItem.controls.amt2.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+      <input type="text" class="form-control text-right" name="amt2" formControlName="amt2" />
+    </div>
+
+  </div>
+
+
+  <div class="clearfix"></div>
+
+  <!-- OBJECT -->
+  <bc-simple-card *ngIf="(jnlItem.controls.objs.controls.length >0)"> <!--title="{{'a2z.object'|translate}}"-->
+    <div formArrayName="objs">
+      <div class="row">
+        <div class="col-md-3" *ngFor="let obj of jnlItem.controls.objs.controls; let k=index">
+          <mje-form-object  [formEdit]="formEdit"
+                            [objIndex]="k"
+                            [group]="jnlItem.controls.objs.controls[k]"
+                            [objTypeList]="objTypeList"
+                            (objEvent)="handleRemoveObjEvent($event)"
+                            [objArray]="refArray">
+          </mje-form-object>
+        </div>
+      </div>
+
+    </div>
+  </bc-simple-card>
+  <div *ngIf="formEdit" class="margin-20">
+    <a (click)="addObj()" style="cursor: pointer">{{'form_action.add'|translate}} {{'a2z.object'|translate}} +</a>
+  </div>
+  <!-- ./ MJE FORM ENTRY REFERENCE -->
+
+  <!-- MJE FORM ENTRY REFERENCE -->
+  <!--
+  <bc-simple-card *ngIf="(jnlItem.controls.refs.controls.length >0)"
+                  title="Reference">
+    <div formArrayName="refs">
+      <div class="row">
+        <div class="col-md-3" *ngFor="let jnlItemRef of jnlItem.controls.refs.controls; let j=index">
+          <mje-form-entry-item-ref  [formEdit]="formEdit"
+                                    [ref]="j"
+                                    [group]="jnlItem.controls.refs.controls[j]"
+                                    [objTypeList]="objTypeList"
+                                    (refEvent)="handleRefEvent($event)"
+                                    [refArray]="refArray">
+          </mje-form-entry-item-ref>
+        </div>
+      </div>
+
+    </div>
+  </bc-simple-card>
+  <div *ngIf="formEdit" class="margin-20">
+    <a (click)="addRef()" style="cursor: pointer">{{'form_action.add'|translate}} {{'prop.ref'|translate}} +</a>
+  </div>
+-->
+  <!-- ./ MJE FORM ENTRY REFERENCE -->
+
+</div>

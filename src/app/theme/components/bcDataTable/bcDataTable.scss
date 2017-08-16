@@ -4,7 +4,7 @@
 
 .table-sortable > thead > tr > th {
     cursor: pointer;
-    text-align: center;
+    //text-align: center;
     position: relative;
     background-image: none;
 }
@@ -27,4 +27,8 @@
 .table-sortable > thead > tr > th.sort-true:after {
     content: "\f0dd";
     color: #ddd;
+}
+
+.dropdown-menu li:hover {
+    cursor: pointer;
 }

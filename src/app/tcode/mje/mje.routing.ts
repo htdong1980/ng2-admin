@@ -1,12 +1,18 @@
+import { AuthGuard, AuthTCodeGuard } from '../../core/guard';
+
 import { Mje } from './mje.component';
 import { Mje00 } from './components/mje00';
-import { Mje01 } from './components/mje01';
-import { Mje02 } from './components/mje02';
-import { Mje03 } from './components/mje03';
-import { Mje04 } from './components/mje04';
-import { Mje05 } from './components/mje05';
-import { Mje06 } from './components/mje06';
+
 import { Mje11 } from './components/mje11';
+import { Mje12 } from './components/mje12';
+import { Mje13 } from './components/mje13';
+import { Mje14 } from './components/mje14';
+import { Mje15 } from './components/mje15';
+import { Mje16 } from './components/mje16';
+import { Mje17 } from './components/mje17';
+import { Mje18 } from './components/mje18';
+
+import { Mje21 } from './components/mje21';
 
 import { Routes, RouterModule } from '@angular/router';
 
@@ -16,20 +22,25 @@ const routes: Routes = [
     component: Mje,
     children: [
       { path: '', component: Mje00 },           // Management
-      { path: 'mje00', component: Mje00 },      // Management
-      { path: 'mje01', component: Mje01 },      // Create
-      { path: 'mje02', component: Mje02 },      // View Lead
-      { path: 'mje02/:id', component: Mje02 },  // View Form
-      { path: 'mje03', component: Mje03 },      // Edit Lead
-      { path: 'mje03/:id', component: Mje03 },  // Edit Form
-      { path: 'mje04', component: Mje04 },      // Disable Lead
-      { path: 'mje04/:id', component: Mje04 },  // Disable Form
-      { path: 'mje05', component: Mje05 },      // Enable Lead
-      { path: 'mje05/:id', component: Mje05 },  // Enable Form
-      { path: 'mje06', component: Mje06 },      // View Changes Lead
-      { path: 'mje06/:id', component: Mje06 },  // View Changes Form
+      { path: 'mje00', canActivate: [AuthTCodeGuard], component: Mje00 },      // Management
 
-      { path: 'mje11', component: Mje11 },      // Create
+      { path: 'mje11', canActivate: [AuthTCodeGuard], component: Mje11 },      // Create
+      { path: 'mje12', canActivate: [AuthTCodeGuard], component: Mje12 },      // View Lead
+      { path: 'mje12/:id', canActivate: [AuthTCodeGuard], component: Mje12 },  // View Form
+      { path: 'mje13', canActivate: [AuthTCodeGuard], component: Mje13 },      // Edit Lead
+      { path: 'mje13/:id', canActivate: [AuthTCodeGuard], component: Mje13 },  // Edit Form
+      { path: 'mje14', canActivate: [AuthTCodeGuard], component: Mje14 },      // Disable Lead
+      { path: 'mje14/:id', canActivate: [AuthTCodeGuard], component: Mje14 },  // Disable Form
+      { path: 'mje15', canActivate: [AuthTCodeGuard], component: Mje15 },      // Enable Lead
+      { path: 'mje15/:id', canActivate: [AuthTCodeGuard], component: Mje15 },  // Enable Form
+      { path: 'mje16', canActivate: [AuthTCodeGuard], component: Mje16 },      // View Changes Lead
+      { path: 'mje16/:id', canActivate: [AuthTCodeGuard], component: Mje16 },  // View Changes Form
+      { path: 'mje17', canActivate: [AuthTCodeGuard], component: Mje17 },      // Post Lead
+      { path: 'mje17/:id', canActivate: [AuthTCodeGuard], component: Mje17 },  // Post Form
+      { path: 'mje18', canActivate: [AuthTCodeGuard], component: Mje18 },      // Revert Lead
+      { path: 'mje18/:id', canActivate: [AuthTCodeGuard], component: Mje18 },  // Revert Form
+
+      { path: 'mje21', canActivate: [AuthTCodeGuard], component: Mje21 },      // Create
     ],
   },
 ];

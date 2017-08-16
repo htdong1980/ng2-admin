@@ -1,0 +1,21 @@
+<h3>{{'mje.desc'|translate}}</h3>
+
+<div class="row" *ngIf="!id">
+  <div class="col-md-4">
+    <div>
+      <ba-card baCardClass="with-scroll"> <!-- translate title="{{'tcode.mje'}}"-->
+        <bc-lead
+          [tcode]="tcode">
+        </bc-lead>
+      </ba-card>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="id">
+  <div class="col-md-12">
+    <ba-card translate title="{{'tcode.mje'}}" baCardClass="with-scroll">
+      FORM
+    </ba-card>
+  </div>
+</div>

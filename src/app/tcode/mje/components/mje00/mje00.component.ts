@@ -1,5 +1,7 @@
-import { AuthenticationService } from '../../../../core/services/authentication.service';
+// Internal
+import { BcUtilsService } from '../../../../theme/services/bcUtils';
 
+// External
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -11,23 +13,36 @@ import { Router } from '@angular/router';
 
 export class Mje00 implements OnInit {
 
-  prefix: string = 'mje';
-  currentUrl: string = '';
+  /*****************************************************************************
+   * TCODE TEMPORARY VARIABLES
+   * prefix:        Prefix of tcode
+   * collapse:      UI for processing and datatable action
+   * rights:        User system rights
+   *****************************************************************************/
 
-  private rights: Array<any>;   // user rights
+  prefix: string = 'mje';
+  // currentUrl: string = '';
+  collapse: boolean = true;
+  rights: Array<any>;
 
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService,
-  ) {
-  }
+    private utilsService: BcUtilsService,
+  ) { }
 
   ngOnInit() {
-    this.currentUrl = this.router.url;
+    // Track user's visit
+    this.utilsService.trackHistory();
 
-    const currentUser: any = this.authenticationService.getCurrentUser();
-    this.rights = currentUser.rights;
-    // console.log(this.rights);
+    // const currentUser: any = this.utilsService.getCurrentUser();
+    // this.rights = currentUser.rights;
+    this.rights = this.utilsService.getMana();
+    console.log(this.rights);
+  }
+
+  toggleCollapse() {
+    this.collapse = !this.collapse;
+    // this.utilsService.setCollapsePref(this.collapse);
   }
 
 }

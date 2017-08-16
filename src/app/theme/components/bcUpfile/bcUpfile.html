@@ -1,20 +1,22 @@
 <form>
   <div class="form-group">
-      <label for="file" translate>{{'shared.up_file'}}</label>          
+      <label for="file" translate>{{'a2z.up_file'}}</label>
       <div class="input-group">
           <input #inputText type="text" [value]="defaultValue" class="form-control" readonly>
           <span class="input-group-btn">
-            <button class="btn btn-success" type="button" (click)="bringFileSelector();">Browse</button>
+            <button class="btn btn-success" type="button" (click)="bringFileSelector();">{{'a2z.browse'|translate}}</button>
         </span>
       </div>
       <input #fileUpload id="file" type="file" (change)="fileChanged($event)" hidden="true"/>
   </div>
-  <button type="button" *ngIf="returnUrl" (click)="return()" class="btn btn-default btn-with-icon" translate><i class="ion-ios-undo"></i>{{'shared.return'}}</button>
+  <button type="button" *ngIf="returnUrl" (click)="return()" class="btn btn-default btn-with-icon" translate><i class="ion-ios-undo"></i>{{'a2z.return'}}</button>
   <div class="pull-right">
-      <button *ngIf="action=='11'" type="button" (click)="onClick()" class="btn btn-info btn-with-icon" translate><i class="ion-android-upload"></i>{{'shared.collective.upload'}}</button>
-      <button *ngIf="action=='13'" type="button" (click)="onClick()" class="btn btn-success btn-with-icon" translate><i class="ion-android-cloud-done"></i>{{'shared.collective.update'}}</button>
-      <button *ngIf="action=='14'" type="button" (click)="onClick()" class="btn btn-warning btn-with-icon" translate><i class="ion-android-cloud"></i>{{'shared.collective.inactivate'}}</button>
-      <button *ngIf="action=='15'" type="button" (click)="onClick()" class="btn btn-primary btn-with-icon" translate><i class="ion-android-cloud-outline"></i>{{'shared.collective.activate'}}</button>
-      <button *ngIf="action=='16'" type="button" (click)="onClick()" class="btn btn-primary btn-with-icon" translate><i class="ion-android-time"></i>{{'shared.collective.history'}}</button>
+      <button *ngIf="action=='21'" type="button" (click)="onClick()" class="btn btn-info btn-with-icon" translate><i class="ion-android-upload"></i>{{'collective.upload'}}</button>
+      <button *ngIf="action=='23'" type="button" (click)="onClick()" class="btn btn-success btn-with-icon" translate><i class="ion-android-cloud-done"></i>{{'collective.update'}}</button>
+      <button *ngIf="action=='24'" type="button" (click)="onClick()" class="btn btn-warning btn-with-icon" translate><i class="ion-android-cloud"></i>{{'collective.inactivate'}}</button>
+      <button *ngIf="action=='25'" type="button" (click)="onClick()" class="btn btn-primary btn-with-icon" translate><i class="ion-android-cloud-outline"></i>{{'collective.activate'}}</button>
+      <button *ngIf="action=='26'" type="button" (click)="onClick()" class="btn btn-primary btn-with-icon" translate><i class="ion-android-time"></i>{{'collective.history'}}</button>
+      <button *ngIf="action=='27'" type="button" (click)="onClick()" class="btn btn-primary btn-with-icon" translate><i class="ion-android-time"></i>{{'collective.post'}}</button>
+      <button *ngIf="action=='28'" type="button" (click)="onClick()" class="btn btn-primary btn-with-icon" translate><i class="ion-android-time"></i>{{'collective.revert'}}</button>
   </div>
 </form>

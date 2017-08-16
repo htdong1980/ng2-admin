@@ -1,22 +1,13 @@
+// Model
+import { LegalEntityService } from '../../../../core/services/legalEntity.service';
+import { AccountService } from '../../../../core/services/account.service';
+import { MjeService } from '../../../../core/services/mje.service';
+
+// Internal
 import { BcUtilsService } from '../../../../theme/services/bcUtils';
 
-import { AuthenticationService } from '../../../../core/services/authentication.service';
-
-// For now, to get list of LGE - in the future no need as LGE must be selected in advance
-import { LegalEntityService } from '../../../../core/services/legalEntity.service';
-// import { LegalEntity } from '../../../../core/interface/legalEntity.interface';
-
-// To get list of Account
-import { AccountService } from '../../../../core/services/account.service';
-// import { Account } from '../../../../core/interface/account.interface';
-
-// Type Interfaces
-// import { EntryItemRef } from '../../../../core/interface/entryItemRef.interface';
-// import { EntryItem } from '../../../../core/interface/entryItem.interface';
-// import { EntryJournal } from '../../../../core/interface/entryJournal.interface';
-
-// System modules, components
-import { Component, OnInit, OnChanges, EventEmitter, Input, Output } from '@angular/core';
+// External
+import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Http, Response } from '@angular/http';
@@ -29,25 +20,60 @@ import { Http, Response } from '@angular/http';
 
 export class MjeForm implements OnInit, OnChanges {
 
-  // Input
-  @Input() returnUrl: string = '';      // backward navigation
-  @Input() tcode: string = '';          // action navigation
-  @Input() entryJournal: any;  // data model
+  /*****************************************************************************
+   * FORM INPUT
+   * returnUrl:     Url supports backward navigation
+   * tcode:         Tcode that is using this Form, to customize form accordingly
+   * entryJournal:  Model data
+   *****************************************************************************/
+  // @Input() returnUrl: string = '';
+  @Input() tcode: string = '';
+  @Input() entryJournal: any;
 
-  // Temporary variables
-  prefix: string = '';                  // get tcode prefix
-  action: string = '';                  // get tcode action
-  formEdit: boolean = false;            // form editable status
-  private formAction = [];
+  /*****************************************************************************
+   * FORM TEMPORARY VARIABLES
+   * prefix:        Prefix of tcode
+   * action:        Action of tcode
+   * formEdit:      Form editable status: True or false
+   * formAction:    Array of status that guides in-form embedded Tcode set up
+   *
+   * currentUser:   Get Current user for Form, JWT and API
+   * userRights:    User system rights
+   * myForm:        Form Data
+   *****************************************************************************/
+  canReturn: boolean = false;
+  prefix: string = '';
+  action: string = '';
+  formEdit: boolean = false;
+  formAction = [];
+  collapse: boolean = true;
 
-  private currentUser: any;                    // get current user for JWT and API
-  private userRights: Array<any>;
-  public myForm: FormGroup;             // form model
+  isSubmit: boolean = false;
+  submitIcon: string = '';
+  submitTitle: string = '';
+  submitMessage: string = '';
 
-  // Master Data and Dimension List - APIs
-  public lgeList: Array<any>;        // list of legal entity
-  public accList: Array<any>;        // Account[];  // list of account
-  public objTypeList: Array<any> = [    // list of object type
+  currentUser: any;
+  userRights: Array<any>;
+  myForm: FormGroup;
+
+  /*****************************************************************************
+   * FORM REFERENCE DATA = MASTER DATA + DIMENSION DATA + MOCK UP DATA
+   * lgeList:       List of Legal Entities (User or default all)
+   * accList:       List of accounts
+   *
+   * objTypeList:   List of Object type
+   * vdrList:       List of Vendor
+   * cemList:       List of Cost Element
+   * cctList:       List of Cost Center
+   * itoList:       List of Intrnal Order
+   * wbsList:       List of Work Breakdown Structure
+   * refArray:      Reference Array which store Type Head data
+   *****************************************************************************/
+  lgeList: Array<any>;
+  accList: Array<any>;
+
+  objTypeList: Array<any> = [
     { obj: '', desc: '-' },
     { obj: 'vdr', desc: 'Vendor' },
     { obj: 'cem', desc: 'Cost Element' },
@@ -56,7 +82,7 @@ export class MjeForm implements OnInit, OnChanges {
     { obj: 'wbs', desc: 'Work Breakdown Structure' },
   ];
 
-  public vdrList: Array<any> = [
+  vdrList: Array<any> = [
     { obj: '', desc: '-' },
     { obj: 'vdr1', desc: 'Vendor 1' },
     { obj: 'vdr2', desc: 'Vendor 2' },
@@ -65,7 +91,7 @@ export class MjeForm implements OnInit, OnChanges {
     { obj: 'vdr5', desc: 'Vendor 5' },
   ];
 
-  public cemList: Array<any> = [
+  cemList: Array<any> = [
     { obj: '', desc: '-' },
     { obj: 'cem1', desc: 'Cost Element 1' },
     { obj: 'cem2', desc: 'Cost Element 2' },
@@ -74,7 +100,7 @@ export class MjeForm implements OnInit, OnChanges {
     { obj: 'cem5', desc: 'Cost Element 5' },
   ];
 
-  public cctList: Array<any> = [
+  cctList: Array<any> = [
     { obj: '', desc: '-' },
     { obj: 'cct1', desc: 'Cost Center 1' },
     { obj: 'cct2', desc: 'Cost Center 2' },
@@ -83,7 +109,7 @@ export class MjeForm implements OnInit, OnChanges {
     { obj: 'cct5', desc: 'Cost Center 5' },
   ];
 
-  public itoList: Array<any> = [
+  itoList: Array<any> = [
     { obj: '', desc: '-' },
     { obj: 'ito1', desc: 'Internal Order 1' },
     { obj: 'ito2', desc: 'Internal Order 2' },
@@ -92,7 +118,7 @@ export class MjeForm implements OnInit, OnChanges {
     { obj: 'ito5', desc: 'Internal Order 5' },
   ];
 
-  public wbsList: Array<any> = [
+  wbsList: Array<any> = [
     { obj: '', desc: '-' },
     { obj: 'wbs1', desc: 'WBS 1' },
     { obj: 'wbs2', desc: 'WBS 2' },
@@ -101,13 +127,12 @@ export class MjeForm implements OnInit, OnChanges {
     { obj: 'wbs5', desc: 'WBS 5' },
   ];
 
-  public refArray: Array<any> = [];
+  refArray: Array<any> = [];
 
   constructor(
     private http: Http,
     private router: Router,
-    // private mjeService: MjeService,
-    private authenticationService: AuthenticationService,
+    private mjeService: MjeService,
     private lgeService: LegalEntityService,
     private accService: AccountService,
     private utilsService: BcUtilsService,
@@ -115,110 +140,66 @@ export class MjeForm implements OnInit, OnChanges {
   ) {
   }
 
-  ngOnInit() {
-    // Get currenct user and userRights here
-    this.currentUser = this.authenticationService.getCurrentUser();
-    this.userRights = this.currentUser.rights;
-    console.log(this.currentUser);
-    console.log(this.userRights);
+  /*****************************************************************************
+   *  INITIALIZATION 1
+   *  - ngOnInit
+   *  - initUserAndRights:    Get current user and user's rights
+   *  - initTCodeParsing:     Parse TCode for navigation
+   *  - initRightsFilter:     Filter relevant user's rights for this form
+   *  - initReferenceData:    Get reference data (Master Data and Dimension Data)
+   *    + loadLgeList:          Load Legal Entities List from server
+   *    + loadAccList:          Load Accounts List from server
+   *****************************************************************************/
 
-    // parse tcode
+  ngOnInit() {
+    this.canReturn = this.utilsService.canReturn();
+    this.Initialization();
+  }
+
+  private Initialization() {
+    this.initUserAndRights();
+    this.initTCodeParsing();
+    this.initRightsFilter();
+    this.initReferenceData();
+  }
+
+  private initUserAndRights() {
+    this.currentUser = this.utilsService.getCurrentUser();
+    this.userRights = this.currentUser.rights;
+  }
+
+  private initTCodeParsing() {
     this.prefix = this.utilsService.extractPrefix(this.tcode);
     this.action = this.utilsService.extractAction(this.tcode);
-    this.formEdit = (this.action == '01') || (this.action == '03');
+    this.formEdit = this.utilsService.formEditable(this.tcode);
+    // console.log(this.formEdit);
+  }
 
-    const rights: number = this.objectLength(this.userRights);
-
+  private initRightsFilter() {
+    // If no rights shall be error
+    const rights: number = this.userRights.length;
+    // Alternative where Array of object is without index
+    // If no rights shall be zero
+    // const rights: number = this.utilsService.getLengthArrayOfObject(this.userRights);
     for (let i = 0; i < rights; i++) {
         if (this.utilsService.extractPrefix(this.userRights[i]['tcode']) == this.prefix) {
           this.formAction[this.userRights[i]['tcode']] = true;
         }
      }
+  }
 
-    // this.formEdit = false;
-    console.log(rights);
-    console.log(this.formAction);
-    // Get list of master, dimension data via API
+  private initReferenceData() {
+    // Only offer assigned Legal Entity, ERROR does not conform structure of combobox
+    // this.lgeList = this.currentUser.lges;
+    this.loadLgeList();                  // All Legal Entity
     this.loadAccList();
-    // this.loadLgeList();
-    this.lgeList = this.currentUser.lges;
-    /*
-    if (!this.lge) {
-      this.lge = this.getWorkingLge();
-    }
-    */
     this.refArray['vdr'] = this.vdrList;
     this.refArray['cem'] = this.cemList;
     this.refArray['cct'] = this.cctList;
     this.refArray['ito'] = this.itoList;
     this.refArray['wbs'] = this.wbsList;
-
-    // setup reactive form
-    const countEntry: number = this.entryJournal.items.length;
-
-    this.myForm = this._fb.group({
-      _id: '',
-      entryDate: [new Date(Date.now()), [Validators.required]],
-      desc: ['', [Validators.required]],
-      lge: ['', [Validators.required]],
-      user: ['', [Validators.required]],
-      items: this._fb.array([
-        // this.initEntryItem(),    // Do not initiate blank entry
-      ]),
-    });
-
-    for (let i = 0; i < countEntry; i++) {
-      // to initiate the entry items and consequently entry item references in an entry journal
-      this.addEntryItem(this.entryJournal.items[i].refs.length);
-      // console.log('Entry ' + i + ' have ' + this.entryJournal.entryItems[i].entryItemRefs.length + 'references');
-    }
-
-    this.myForm.setValue(this.entryJournal);      // To collectively map data model with form model
-    // this.myForm.patchValue(this.entryJournal); // Alternative
-    /*
-    this.myForm.patchValue({                      // Individual mapping
-      entryDate: this.entryJournal.entryDate,
-      desc: this.entryJournal.desc,
-      lge: this.entryJournal.lge,
-      user: this.entryJournal.userId,
-      entries: [{
-        docDate: this.entryJournal.docDate,
-        desc: this.entryJournal.entries[0].desc,
-        account: this.entryJournal.entries[0].account,
-        currency: this.entryJournal.entries[0].currency,
-        amount1: this.entryJournal.entries[0].amount1,
-        fx: this.entryJournal.entries[0].fx,
-        amount2: this.entryJournal.entries[0].amount2,
-        refs: [{
-          objtype: this.entryJournal.entries[0].refs[0].type,
-          id: this.entryJournal.entries[0].refs[0].id,
-          value: this.entryJournal.entries[0].refs[0].value,
-        }],
-      }],
-    });
-    */
   }
 
-  getUserRights(): Array<any> {
-    return JSON.parse(localStorage.getItem('userRights'));
-  }
-
-  private getWorkingLge(): string {
-    return localStorage.getItem('workingLge');
-  }
-
-  private objectLength(obj) {
-    let result = 0;
-    for ( const prop in obj ) {
-      if (obj.hasOwnProperty(prop)) {
-        // or Object.prototype.hasOwnProperty.call(obj, prop)
-        result++;
-      }
-    }
-    return result;
-  }
-
-  // Load Legal Entity List
   private loadLgeList() {
     this.lgeService.getAll().subscribe(list => {
       this.lgeList = list;
@@ -226,7 +207,6 @@ export class MjeForm implements OnInit, OnChanges {
     });
   }
 
-  // Load Account List
   private loadAccList() {
     this.accService.getAll().subscribe(list => {
       this.accList = list;
@@ -234,206 +214,298 @@ export class MjeForm implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges() {
+  /*****************************************************************************
+   *  INITIALIZATION 2
+   *  - ngOnChanges           To detect any change of Model Data (async)
+   *    + Create:               Only blank header
+   *    + View / Edit           Complete Header with or without Items / Refs
+   *
+   *  - initReactiveFormAndMapModelData:
+   *    + initHeader:               Initialize Form header with model header data
+   *    + initEntryItem:            Initialize Form detail: Entry Item
+   *    + initEntryItemWithData:    Initialize and map Model data for Entry Item
+   *    + initEntryItemRef:         Initialize Form detail: Entry Item Ref
+   *    + initEntryItemRefWithData: Initialize and map Model data for Entry Item Ref
+   *****************************************************************************/
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['entryJournal'] && (this.entryJournal != undefined)) {
+      this.initReactiveFormAndMapModelData();
+    }
   }
 
-  initEntryItem() {
+  private initReactiveFormAndMapModelData() {
+    this.initHeader();
+
+    // DOC LEVEL
+    const hasDoc: boolean = this.utilsService.propInObject(this.entryJournal, 'docs');
+    if (hasDoc) {
+      const countDoc: number = this.entryJournal.docs.length;
+      console.log(countDoc);
+
+      for (let i = 0; i < countDoc; i++) {
+        let controlDoc = <FormArray> this.myForm.controls['docs'];
+        controlDoc.push(this.initEntryDocWithData(this.entryJournal.docs[i]));
+
+        //JOURNAL LEVEL
+        let hasJnl: boolean = this.utilsService.propInObject(this.entryJournal.docs[i], 'jnls');
+        if (hasJnl) {
+          const countJnl: number = this.entryJournal.docs[i].jnls.length;
+          console.log(countJnl);
+          console.log(this.entryJournal.docs[i]);
+
+          for (let j = 0; j < countJnl; j++) {
+            //TO DO: performance improve needed
+            let controlDoc1 = <FormGroup> controlDoc.controls[controlDoc.length - 1];
+            let controlJnl = <FormArray> controlDoc1.controls['jnls'];
+
+            controlJnl.push(this.initEntryJnlWithData(this.entryJournal.docs[i].jnls[j]));
+
+            // OBJ LEVEL
+            let hasObj: boolean = this.utilsService.propInObject(this.entryJournal.docs[i].jnls[j], 'objs');
+            if (hasObj) {
+              const countObj: number = this.entryJournal.docs[i].jnls[j].objs.length;
+              console.log(countObj);
+              console.log(this.entryJournal.docs[i].jnls[j]);
+
+              for (let k = 0; k < countObj; k++) {
+                // TO DO: performance improve needed
+                let controlJnl1 = <FormGroup> controlJnl.controls[controlJnl.length - 1];
+                let controlObj = <FormArray> controlJnl1.controls['objs'];
+
+                controlObj.push(this.initEntryObjWithData(this.entryJournal.docs[i].jnls[j].objs[k]));
+                console.log(this.entryJournal.docs[i].jnls[j].objs[k]);
+              }
+            } // hasObj
+          }
+        } // hasJnl
+      }
+    } // hasDoc
+
+
+  }
+
+  initHeader() {
+    this.myForm = this._fb.group({
+      _id: [this.entryJournal._id],
+      ref: [this.entryJournal.ref],
+      date: [new Date(this.entryJournal.date), [Validators.required]],
+      ppr: [this.entryJournal.ppr, [Validators.required]],
+      lge: [this.entryJournal.lge, [Validators.required]],
+      desc: [this.entryJournal.desc, [Validators.required]],
+      docs: this._fb.array([
+        // this.initEntryItem(),            // Do not initiate blank entry
+      ]),
+      status: [this.entryJournal.status],
+      post: [this.entryJournal.post],
+    });
+  }
+
+  initEntryDoc() {
     return this._fb.group({
-      docDate: ['', [Validators.required]],
+      ref: ['', [Validators.required]],
+      date: [new Date(Date.now()), [Validators.required]],
       desc: ['', [Validators.required]],
-      acc: ['', [Validators.required]],
-      crc: ['', [Validators.required]],
-      amt1: [0, [Validators.required]],
-      fx: [1, [Validators.required]],
-      amt2: [0, [Validators.required]],
-      refs: this._fb.array([
+      jnls: this._fb.array([
         // this.initEntryItemRef(),
       ]),
     });
   }
 
-  initEntryItemRef() {
+  initEntryDocWithData(docItem: any) {
     return this._fb.group({
-      objType: ['', [Validators.required]],
-      objId: ['', [Validators.required]],
-      objTitle: ['', [Validators.required]],
+      ref: [docItem.ref, [Validators.required]],
+      date: [new Date(docItem.date), [Validators.required]],
+      desc: [docItem.desc, [Validators.required]],
+      jnls: this._fb.array([
+        // this.initEntryItemRef(),
+      ]),
     });
   }
 
-  saveEntryJournal(model: any) {
-    // call API to save transaction
-    console.log(model);
+  initEntryJnl() {
+    return this._fb.group({
+      acc: ['', [Validators.required]],
+      crc: ['', [Validators.required]],
+      amt1: [0, [Validators.required]],
+      fx: [1, [Validators.required]],
+      amt2: [0, [Validators.required]],
+      objs: this._fb.array([
+        // this.initEntryItemRef(),
+      ]),
+    });
   }
 
-  addEntryItem(entryRefElements: number = 0) {
-    const control = <FormArray> this.myForm.controls['items'];
-
-    // Add new entry item
-    control.push(this.initEntryItem());
-
-    // Add refs in entry
-    const control1 = <FormGroup> control.controls[control.length - 1];
-    const control2 = <FormArray> control1.controls['refs'];
-    for (let i = 0; i < entryRefElements; i++) {
-      control2.push(this.initEntryItemRef());
-    }
+  initEntryJnlWithData(jnlItem: any) {
+    return this._fb.group({
+      acc: [jnlItem.acc, [Validators.required]],
+      crc: [jnlItem.crc, [Validators.required]],
+      amt1: [jnlItem.amt1, [Validators.required]],
+      fx: [jnlItem.fx, [Validators.required]],
+      amt2: [jnlItem.amt2, [Validators.required]],
+      objs: this._fb.array([
+        // this.initEntryItemRef(),
+      ]),
+    });
   }
 
-  removeEntryItem(i: number) {
-    const control = <FormArray> this.myForm.controls['items'];
+  initEntryObj() {
+    return this._fb.group({
+      type: ['', [Validators.required]],
+      id: ['', [Validators.required]],
+      desc: ['', [Validators.required]],
+    });
+  }
+
+  initEntryObjWithData(objItem: any) {
+    return this._fb.group({
+      type: [objItem.type, [Validators.required]],
+      id: [objItem.id, [Validators.required]],
+      desc: [objItem.desc, [Validators.required]],
+    });
+  }
+
+  /*****************************************************************************
+   *  FORM OPERATION
+   *  - ngOnChanges
+   *  - addEntryItem:     To add an Entry Item with a number of Refs into myForm
+   *  - removeEntryItem:  To remove an Entry Item at position i from entryJournal
+   *  - handleItemEvent:  To handle output events emitted from mjeFormEntryItem for
+   *    + addRef            Add a ref in Entry Item
+   *    + removeRef         Remove a ref in Entry Item
+   * - submitForm:        To sumbit action without refreshing the page
+   *    + saveEntryJournal
+   *    + updateEntryJournal
+   *    + enableEntryJournal
+   *    + disableEntryJournal
+   * - return:            Return to previous page
+   *****************************************************************************/
+
+  addDoc() {
+    const control = <FormArray> this.myForm.controls['docs'];
+    control.push(this.initEntryDoc());   // Add new doc item at the end
+  }
+
+  removeDoc(i: number) {
+    const control = <FormArray> this.myForm.controls['docs'];
     control.removeAt(i);
   }
 
-  // Handle output event from mjeFormEntryItem
-  handleItemEvent($event) {
-     console.log($event);
+  handleEvent($event) {
+    console.log($event);
+    const i: number = + $event['docIndex'];
+    const j: number = + $event['jnlIndex'];
+    const k: number = + $event['objIndex'];
+    console.log(i, j, k);
 
-    if ($event['action'] == 'addRef') {
-      const i: number = + $event['item'];
-      const control = <FormArray> this.myForm.controls['items'];
-      const control1 = <FormGroup> control.controls[i];
-      const control2 = <FormArray> control1.controls['refs'];
-      // console.log(control);
-      // console.log(control1);
-      // console.log(control2);
-      // const control = <FormArray> this.myForm.controls['entries'][i].controls['refs'];
-      control2.push(this.initEntryItemRef());
-      // console.log('hello');
+    const docFA = <FormArray> this.myForm.controls['docs'];
+    const docFG = <FormGroup> docFA.controls[i];
+    const jnlFA = <FormArray> docFG.controls['jnls'];
+
+    let jnlFG;
+    let objFA;
+
+    if (j >= 0) {
+      jnlFG = <FormGroup> jnlFA.controls[j];
+      objFA = <FormArray> jnlFG.controls['objs'];
     }
 
-    if ($event['action'] == 'removeRef') {
-      const i: number = + $event['item'];
-      const control = <FormArray> this.myForm.controls['items'];
-      const control1 = <FormGroup> control.controls[i];
-      const j: number = + $event['ref'];
-      const control2 = <FormArray> control1.controls['refs'];
-      control2.removeAt(j);
+    console.log(jnlFA);
+
+    switch ($event['action']) {
+      case 'addJnl':
+        jnlFA.push(this.initEntryJnl());
+        break;
+
+      case 'removeJnl':
+        if (j >= 0) {
+          jnlFA.removeAt(j);
+        }
+        break;
+
+      case 'addObj':
+        objFA.push(this.initEntryObj());
+        break;
+
+      case 'removeObj':
+        if (k >= 0) {
+          objFA.removeAt(k);
+        }
+        break;
+      default:
     }
+  }
+
+  toggleCollapse() {
+    // this.collapse = !this.collapse;
+    // this.utilsService.setCollapsePref(this.collapse);
+  }
+
+  submitForm() {
+    if (this.myForm.valid) {
+      const mje: any = this.myForm['_value'];
+      // console.log(mje);
+      this.saveEntryJournal(mje);
+    }
+  }
+
+  saveEntryJournal(mje: any) {
+    if (this.action == '11') {
+      this.mjeService.create(mje)
+        .subscribe(
+          data => {
+              // this.alertService.success('Registration successful', true);
+              // this.router.navigate(['/login']);
+              this.submitIcon = 'ion-checkmark-circled';
+              this.submitTitle = 'action_status.success';
+              this.submitMessage = 'action_message.create';
+              this.isSubmit = true;
+
+          },
+          error => {
+              // this.alertService.error(error._body);
+              // this.loading = false;
+              console.log(error.body);
+          },
+      );
+    }
+
+    if (this.action == '13') {
+      // update
+      // console.log(mje);
+      this.mjeService.update(mje)
+        .subscribe(
+          data => {
+              console.log(data);
+              this.submitIcon = 'ion-checkmark-circled';
+              this.submitTitle = 'action_status.success';
+              this.isSubmit = true;
+
+          },
+          error => {
+              // this.alertService.error(error._body);
+              // this.loading = false;
+              console.log(error.body);
+          },
+      );
+    }
+
+  }
+
+  executeAction(action: string, value: string): void {
+    let url: string = '';
+    if (action == '11') {
+      url = this.utilsService.urlLead(this.prefix + action);
+    } else {
+      url = this.utilsService.urlForm(this.prefix + action, value);
+    }
+    this.router.navigate([url]);
+    // console.log(url);
   }
 
   return() {
-    this.router.navigate([this.returnUrl]);
+    this.utilsService.returnPrevious();
+    // this.router.navigate([this.returnUrl]);
   }
-
-  /* -------------------------- BEGIN TEST DATA ------------------------------*/
-  /*
-  export interface Test {
-    name: string; // text
-    age?: number; // number
-    gender?: string; // radio
-    role?: string; // select (primitive)
-    theme?: Theme; // select (object)
-    topics?: string[]; // multiple select
-    isActive?: boolean; // checkbox
-    toggle?: string; // checkbox toggle either 'toggled' or 'untoggled'
-  }
-
-  export interface Theme {
-    display: string;
-    backgroundColor: string;
-    fontColor: string;
-  }
-  /* ----------------------- END OF TEST DATA ------------------------------ */
-
-  /* -------------------------- BEGIN TEST DATA ------------------------------*/
-  /*
-  public test: Test;
-
-  // standing data goes here
-  public genders = [
-    { value: 'M', display: 'Male' },
-    { value: 'F', display: 'Female' },
-  ];
-
-  public roles = [
-    { value: 'admin', display: 'Administrator' },
-    { value: 'guest', display: 'Guest' },
-    { value: 'custom', display: 'Custom' },
-  ];
-
-  public themes: Theme[] = [
-    { display: 'Dark', backgroundColor: 'black', fontColor: 'white' },
-    { display: 'Light', backgroundColor: 'white', fontColor: 'black' },
-    { display: 'Sleek', backgroundColor: 'grey', fontColor: 'white' },
-  ];
-
-  public topics = [
-    { value: 'game', display: 'Gaming' },
-    { value: 'tech', display: 'Technology' },
-    { value: 'life', display: 'Lifestyle' },
-  ];
-
-  public toggles = [
-    { value: 'toggled', display: 'Toggled' },
-    { value: 'untoggled', display: 'UnToggled' },
-  ];
-  // end standing data
-  /* ----------------------- END OF TEST DATA ------------------------------ */
-
-  /* -------------------------- BEGIN TEST DATA ---------------------------*/
-  /*
-  this.test = {
-    name: '',
-    gender: this.genders[0].value, // default to Male
-    role: null,
-    theme: this.themes[0], // default to dark theme
-    isActive: false,
-    toggle: this.toggles[1].value, // default to untoggled
-    topics: [this.topics[1].value], // default to Technology
-  };
-  /* ----------------------- END OF TEST DATA --------------------------- */
-
-  /* -------------------------- BEGIN TEST DATA ---------------------------*/
-  /*
-  public save(isValid: boolean, f: Test) {
-    console.log(f);
-  }
-  */
-  /*
-  public checkboxModel = [{
-    name: 'Check 1',
-    checked: false,
-    class: 'col-md-4',
-  }, {
-    name: 'Check 2',
-    checked: true,
-    class: 'col-md-4',
-  }, {
-    name: 'Check 3',
-    checked: false,
-    class: 'col-md-4',
-  }];
-
-  isDisabled: boolean = false;
-
-  public checkboxPropertiesMapping = {
-    model: 'checked',
-    value: 'name',
-    label: 'name',
-    baCheckboxClass: 'class',
-  };
-
-  public checkboxModel1 = [{
-    name: 'Checkbox with success',
-    state: false,
-    class: 'has-success checkbox',
-  }, {
-    name: 'Checkbox with warning',
-    state: false,
-    class: 'has-warning checkbox',
-  }, {
-    name: 'Checkbox with error',
-    state: false,
-    class: 'has-error checkbox',
-  }];
-
-  public checkboxPropertiesMapping1 = {
-    model: 'state',
-    value: 'name',
-    label: 'name',
-    baCheckboxClass: 'class',
-  };
-  /* ----------------------- END OF TEST DATA --------------------------- */
-
 
 }

@@ -1,0 +1,1 @@
+export * from './bcSimpleCard.component';

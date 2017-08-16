@@ -1,12 +1,18 @@
-import { Page404, Page500 } from './_error';
 import { AuthGuard, AuthTCodeGuard } from '../core/guard';
 
-import { Inbox, Outbox, Draft, InProgress, Documenting, Finished } from '../tcode';
+// Error
+import { Err00 } from '../tcode/err/components/err00';      // Error Info
+import { Err01 } from '../tcode/err/components/err01';      // Permission
+import { Err02 } from '../tcode/err/components/err02';      // Not Found
+import { Err03 } from '../tcode/err/components/err03';      // Other Errors
 
-import { Mje } from '../tcode';
-// import { Mje00 } from '../tcode/mje/components/mje00';
-
-// import { Vdr, Vdr01 } from '../tcode';
+// My Categories
+import { Mcat31 } from '../tcode/mcat/components/mcat31';   // Inbox
+import { Mcat32 } from '../tcode/mcat/components/mcat32';   // Outbox
+import { Mcat41 } from '../tcode/mcat/components/mcat41';   // Draft
+import { Mcat42 } from '../tcode/mcat/components/mcat42';   // In progress
+import { Mcat43 } from '../tcode/mcat/components/mcat43';   // Documenting
+import { Mcat44 } from '../tcode/mcat/components/mcat44';   // Finished
 
 import { Pages } from './pages.component';
 import { Routes, RouterModule } from '@angular/router';
@@ -45,20 +51,31 @@ export const routes: Routes = [
 
       // tcode
       { path: 'tcode',
-        canActivateChild: [AuthTCodeGuard],
+        // canActivateChild: [AuthTCodeGuard],
         data: { name: 'TCode' },
         children: [
+
           // My Approval
-          { path: 'inbox', component: Inbox },
-          { path: 'outbox', component: Outbox },
+          { path: 'inbox', component: Mcat31 },
+          { path: 'outbox', component: Mcat32 },
 
           // My Requests
-          { path: 'draft', component: Draft },
-          { path: 'inprogress', component: InProgress },
-          { path: 'documenting', component: Documenting },
-          { path: 'finished', component: Finished },
+          { path: 'draft', component: Mcat41 },
+          { path: 'inprogress', component: Mcat42 },
+          { path: 'documenting', component: Mcat43 },
+          { path: 'finished', component: Mcat44 },
 
+          // By TCodes
+          { path: 'asm', loadChildren: '../tcode/asm/asm.module#AsmModule' },
+          { path: 'cbn', loadChildren: '../tcode/cbn/cbn.module#CbnModule' },
+          { path: 'crm', loadChildren: '../tcode/crm/crm.module#CrmModule' },
+          { path: 'ebuy', loadChildren: '../tcode/ebuy/ebuy.module#EbuyModule' },
+          { path: 'erm', loadChildren: '../tcode/erm/erm.module#ErmModule' },
+          { path: 'err', loadChildren: '../tcode/err/err.module#ErrModule' },
+          { path: 'hcm', loadChildren: '../tcode/hcm/hcm.module#HcmModule' },
+          { path: 'mcat', loadChildren: '../tcode/mcat/mcat.module#McatModule' },
           { path: 'mje', loadChildren: '../tcode/mje/mje.module#MjeModule' },
+          { path: 'prime', loadChildren: '../tcode/prime/prime.module#PrimeModule' },
           // { path: 'vdr', loadChildren: '../tcode/vdr/vdr.module#VdrModule' },
           /*
           { path: 'mje/mje00', loadChildren: '../tcode/mje/components/mje00/mje00.module#Mje00Module' },
@@ -80,12 +97,13 @@ export const routes: Routes = [
         ],
       },
 
-      // error
-      { path: 'page404', component: Page404, data: { name: 'Page404' } },
-      { path: 'page500', component: Page500, data: { name: 'Page500' } },
+      // Error
+      { path: 'err01', component: Err01, data: { name: 'Error Page' } },
+      { path: 'err02', component: Err02, data: { name: 'Error Page' } },
+      { path: 'err03', component: Err03, data: { name: 'Error Page' } },
 
       // Exceptional
-      { path: '**', redirectTo: 'page404', pathMatch: 'full', data: { name: 'Page500' } },
+      { path: '**', redirectTo: 'err02', pathMatch: 'full', data: { name: 'Error Page' } },
     ],
   },
 ];

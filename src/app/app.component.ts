@@ -1,10 +1,10 @@
-import { Component, ViewContainerRef } from '@angular/core';
-import * as $ from 'jquery';
-
 import { GlobalState } from './global.state';
+import { layoutPaths } from './theme/theme.constants';
 import { BaImageLoaderService, BaThemePreloader, BaThemeSpinner } from './theme/services';
 import { BaThemeConfig } from './theme/theme.config';
-import { layoutPaths } from './theme/theme.constants';
+
+import { Component, ViewContainerRef } from '@angular/core';
+import * as $ from 'jquery';
 
 /*
  * App Component
@@ -18,7 +18,7 @@ import { layoutPaths } from './theme/theme.constants';
       <div class="additional-bg"></div>
       <router-outlet></router-outlet>
     </main>
-  `
+  `,
 })
 export class App {
 
@@ -30,10 +30,7 @@ export class App {
               private viewContainerRef: ViewContainerRef,
               private themeConfig: BaThemeConfig) {
 
-    console.log('app.component.ts');
-    
     themeConfig.config();
-
     this._loadImages();
 
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {

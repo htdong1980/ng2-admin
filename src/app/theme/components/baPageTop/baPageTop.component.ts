@@ -44,8 +44,6 @@ export class BaPageTop {
   }
 
   public logOut() {
-    // remove user from local storage to log user out
-    localStorage.removeItem('workingLge');
-    localStorage.removeItem('currentUser');
+    this.utilsService.logOut();    
   }
 }

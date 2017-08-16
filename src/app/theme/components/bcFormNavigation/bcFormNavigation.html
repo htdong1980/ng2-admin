@@ -1,0 +1,26 @@
+<div *ngIf="!collapse" class="btn-group-example">
+  <div class="btn-group pull-right" role="group" aria-label="Individual">
+    <button *ngIf="formAction[prefix + '11'] && (tcode != prefix + '11')" (click)="executeTCode(prefix + '11')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-add"></i>{{'individual.create'}}</button>
+    <button *ngIf="formAction[prefix + '12'] && (tcode != prefix + '12') && (tcode != prefix + '01')" (click)="executeTCode(prefix + '12')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-create"></i>{{'individual.view'}}</button>
+    <button *ngIf="formAction[prefix + '13'] && (tcode != prefix + '13') && (tcode != prefix + '01')" (click)="executeTCode(prefix + '13')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-create"></i>{{'individual.edit'}}</button>
+    <button *ngIf="formAction[prefix + '14'] && (tcode != prefix + '14') && (tcode != prefix + '01')" (click)="executeTCode(prefix + '14')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-toggle-filled"></i>{{'individual.disable'}}</button>
+    <button *ngIf="formAction[prefix + '15'] && (tcode != prefix + '15') && (tcode != prefix + '01')" (click)="executeTCode(prefix + '15')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-toggle"></i>{{'individual.enable'}}</button>
+    <button *ngIf="formAction[prefix + '16'] && (tcode != prefix + '16') && (tcode != prefix + '01')" (click)="executeTCode(prefix + '16')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-clock"></i>{{'individual.view_change'}}</button>
+    <button *ngIf="formAction[prefix + '17'] && (tcode != prefix + '17') && (tcode != prefix + '01')" (click)="executeTCode(prefix + '17')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-forward"></i>{{'individual.post'}}</button>
+    <button *ngIf="formAction[prefix + '18'] && (tcode != prefix + '18') && (tcode != prefix + '01')" (click)="executeTCode(prefix + '18')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-reply"></i>{{'individual.revert'}}</button>
+  </div>
+</div>
+
+<div *ngIf="collapse" class="btn-group pull-right" ngbDropdown>
+  <button type="button" class="btn btn-primary" ngbDropdownToggle>{{'individual.title'|translate}}</button>
+  <ul class="dropdown-menu">
+      <li *ngIf="formAction[prefix + '11'] && (tcode != prefix + '11')" (click)="executeTCode(prefix + '11')" class="dropdown-item"><a><i class="ion-android-add"></i> {{'individual.create'|translate}}</a></li>
+      <li *ngIf="formAction[prefix + '12'] && (tcode != prefix + '12') && (tcode != prefix + '01')" (click)="executeTCode(prefix + '12')" class="dropdown-item"><a><i class="ion-android-search"></i> {{'individual.view'|translate}}</a></li>
+      <li *ngIf="formAction[prefix + '13'] && (tcode != prefix + '13') && (tcode != prefix + '01')" (click)="executeTCode(prefix + '13')" class="dropdown-item"><a><i class="ion-android-create"></i> {{'individual.edit'|translate}}</a></li>
+      <li *ngIf="formAction[prefix + '14'] && (tcode != prefix + '14') && (tcode != prefix + '01')" (click)="executeTCode(prefix + '14')" class="dropdown-item"><a><i class="ion-toggle-filled"></i></a> {{'individual.disable'|translate}}</li>
+      <li *ngIf="formAction[prefix + '15'] && (tcode != prefix + '15') && (tcode != prefix + '01')" (click)="executeTCode(prefix + '15')" class="dropdown-item"><a><i class="ion-toggle"></i></a> {{'individual.enable'|translate}}</li>
+      <li *ngIf="formAction[prefix + '16'] && (tcode != prefix + '16') && (tcode != prefix + '01')" (click)="executeTCode(prefix + '16')" class="dropdown-item"><a><i class="ion-clock"></i></a> {{'individual.view_change'|translate}}</li>
+      <li *ngIf="formAction[prefix + '17'] && (tcode != prefix + '17') && (tcode != prefix + '01')" (click)="executeTCode(prefix + '17')" class="dropdown-item"><a><i class="ion-forward"></i></a> {{'individual.post'|translate}}</li>
+      <li *ngIf="formAction[prefix + '18'] && (tcode != prefix + '18') && (tcode != prefix + '01')" (click)="executeTCode(prefix + '18')" class="dropdown-item"><a><i class="ion-reply"></i></a> {{'individual.revert'|translate}}</li>
+  </ul>
+</div>

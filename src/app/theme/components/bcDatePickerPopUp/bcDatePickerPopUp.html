@@ -1,0 +1,21 @@
+<!--<form class="form-inline">-->
+  <div class="form-group">
+    <div class="input-group">
+
+      <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+            [(ngModel)]="datePickerValue"
+            ngbDatepicker
+            #d="ngbDatepicker">
+
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="button" [ngClass]="{disabled : !formEdit}" (click)="formEdit && d.toggle()"><i class="ion-calendar"></i></button>
+      </span>
+
+    </div>
+  </div>
+<!--</form>-->
+
+<!--
+<hr/>
+<pre>Model: {{ model | json }}</pre>
+-->

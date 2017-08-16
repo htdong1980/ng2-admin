@@ -1,190 +1,160 @@
-<form [formGroup]="myForm" novalidate (ngSubmit)="saveEntryJournal(myForm)">
-  <button type="button"
-          *ngIf="returnUrl"
-          (click)="return()" class="btn btn-default btn-with-icon">
-            <i class="ion-ios-undo"></i>{{'form_action.return'|translate}}
-  </button>
-
-
-  <div class="btn-group pull-right" role="group" aria-label="Individual">
-    <button *ngIf="formAction[prefix + '01'] && (tcode != prefix + '01')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-add"></i>{{'shared.individual.create'}}</button>
-    <button *ngIf="formAction[prefix + '03'] && (tcode != prefix + '03') && (tcode != prefix + '01')"  type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-create"></i>{{'shared.individual.edit'}}</button>
-    <button *ngIf="formAction[prefix + '04'] && (tcode != prefix + '04') && (tcode != prefix + '01')"  type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-toggle-filled"></i>{{'shared.individual.disable'}}</button>
-    <button *ngIf="formAction[prefix + '05'] && (tcode != prefix + '05') && (tcode != prefix + '01')"  type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-toggle"></i>{{'shared.individual.enable'}}</button>
-    <button *ngIf="formAction[prefix + '06'] && (tcode != prefix + '06') && (tcode != prefix + '01')"  type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-clock"></i>{{'shared.individual.view_change'}}</button><!---->
-    <button *ngIf="formEdit"
-            type="submit" class="btn btn-primary btn-with-icon"
-            [disabled]="!myForm.valid">
-              <i class="ion-forward"></i>{{'form_action.submit'|translate}}
-    </button>
-  </div>
-
-  <div class="clearfix"></div>
-  <br />
-
-  <!-- MJE HEADER -->
-  <ba-card title="Header" baCardClass="with-scroll"> <!--  -->
-    <div class="row">
-      <div class="form-group col-sm-2">
-        <label>{{'object.entry'|translate}} {{'prop.date'|translate}} <small *ngIf="!myForm.controls.entryDate.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
-        <!--<input type="date" class="form-control" name="entryDate" formControlName="entryDate" /> -->
-        <input type="date" class="form-control" name="entryDate" formControlName="entryDate" useValueAsDate>
-      </div>
-
-      <div class="form-group col-sm-10">
-        <label>{{'prop.desc'|translate}} <small *ngIf="!myForm.controls.desc.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
-        <input type="text" class="form-control" name="desc" formControlName="desc" />
-      </div>
-
-      <div class="form-group col-sm-3"> <!--hidden-->
-        <bc-combo-box title="{{'object.lge'|translate}}" name="lge" formControlName="lge" [list]="lgeList" [f1]="'lge'" [f2]="'desc'"></bc-combo-box>
-        <small *ngIf="!myForm.controls.lge.valid" class="text-warning">{{'validation.is_required'|translate}}</small>
-        <!-- Alternative
-        <label>{{'object.lge'|translate}}</label>
-        <input type="text" class="form-control" name="lge" formControlName="lge" />
-        <small *ngIf="!myForm.controls.lge.valid" class="text-warning">{{'validation.is_required'|translate}}</small>
-        -->
-      </div>
-
-      <div class="form-group col-sm-3"> <!--hidden-->
-        <label>{{'object.user'|translate}} <small *ngIf="!myForm.controls.user.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
-        <input type="text" class="form-control" name="user" formControlName="user" />
-      </div>
-
-    </div>
-  </ba-card>
-  <!-- ./MJE HEADER -->
-
-  <!-- MJE CONTENT -->
-  <div formArrayName="items">
-    <div *ngFor="let entry of myForm.controls.items.controls; let i=index">
-      <ba-card title="{{'prop.item'|translate}} {{i+1}}" baCardClass="with-scroll"> <!--  -->
-        <div [formGroupName]="i">
-          <mje-form-entry-item  [formEdit]="formEdit"
-                                [item]="i"
-                                [formGroup]="myForm.controls.items.controls[i]"
-                                [accList]="accList"
-                                [objTypeList]="objTypeList"
-                                (itemEvent)="handleItemEvent($event)"
-                                [refArray]="refArray">
-          </mje-form-entry-item>
-        </div>
-        <button *ngIf="formEdit && (myForm.controls.items.controls.length >1)"
-                (click)="removeEntryItem(i)"
-                type="button" class="btn btn-danger pull-right">
-                {{'form_action.remove'|translate}}
+<ng-container *ngIf="entryJournal && !isSubmit">
+  <form [formGroup]="myForm" novalidate> <!--(ngSubmit)="saveEntryJournal(myForm)"-->
+      <div class="btn-list">
+        <button type="button"
+                *ngIf="canReturn"
+                (click)="return()" class="btn btn-default btn-with-icon">
+                  <i class="ion-ios-undo"></i>{{'form_action.return'|translate}}
         </button>
-      </ba-card>
+        <button *ngIf="formEdit"
+                (click)="submitForm()" class="btn btn-success pull-right"
+                [disabled]="!myForm.valid">
+                  <i class="ion-ios-compose"></i> {{'form_action.submit'|translate}}
+        </button>
+      </div>
+      <div class="clearfix"></div>
+      <br />
+      <bc-form-navigation *ngIf="formAction[prefix + '11'] && (tcode != prefix + '11')"
+                          [formAction]="formAction"
+                          [tcode]="tcode"
+                          [value]="myForm.controls._id.value"
+                          [collapse]="collapse">
+      </bc-form-navigation>
+
+      <div *ngIf="formAction[prefix + '11'] && (tcode != prefix + '11')" class="margin-20">
+        <a *ngIf="!collapse" (click)="toggleCollapse()" style="cursor: pointer"><i class="ion-android-remove-circle"></i> {{'form_action.collapse'|translate}}</a>
+        <a *ngIf="collapse" (click)="toggleCollapse()" style="cursor: pointer"><i class="ion-android-add-circle"></i> {{'form_action.expand'|translate}}</a>
+      </div>
+
+    <!--
+    <div class="btn-group pull-right" role="group" aria-label="Individual">
+      <button *ngIf="formAction[prefix + '11'] && (tcode != prefix + '11')" (click)="executeAction('11')" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-add"></i>{{'individual.create'}}</button>
+      <button *ngIf="formAction[prefix + '12'] && (tcode != prefix + '12') && (tcode != prefix + '11')" (click)="executeAction('12', myForm.controls._id.value)" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-create"></i>{{'individual.view'}}</button>
+      <button *ngIf="formAction[prefix + '13'] && (tcode != prefix + '13') && (tcode != prefix + '11')" (click)="executeAction('13', myForm.controls._id.value)" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-android-create"></i>{{'individual.edit'}}</button>
+      <button *ngIf="formAction[prefix + '14'] && (tcode != prefix + '14') && (tcode != prefix + '11')" (click)="executeAction('14', myForm.controls._id.value)" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-toggle-filled"></i>{{'individual.disable'}}</button>
+      <button *ngIf="formAction[prefix + '15'] && (tcode != prefix + '15') && (tcode != prefix + '11')" (click)="executeAction('15', myForm.controls._id.value)" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-toggle"></i>{{'individual.enable'}}</button>
+      <button *ngIf="formAction[prefix + '16'] && (tcode != prefix + '16') && (tcode != prefix + '11')" (click)="executeAction('16', myForm.controls._id.value)" type="button" class="btn btn-primary btn-with-icon" translate><i class="ion-clock"></i>{{'individual.view_change'}}</button>
+      <button *ngIf="formEdit"
+              (click)="submitForm()" class="btn btn-success pull-right"
+              [disabled]="!myForm.valid">
+                <i class="ion-ios-compose"></i> {{'form_action.submit'|translate}}
+      </button>
     </div>
-  </div>
+    -->
 
-  <div *ngIf="formEdit" class="margin-20">
-    <a (click)="addEntryItem()" style="cursor: pointer">{{'form_action.add'|translate}} {{'object.entry'|translate}} +</a>
-  </div>
-  <div class="clearfix"></div>
-  <br />
 
-  <button type="button" *ngIf="returnUrl" (click)="return()" class="btn btn-default btn-with-icon" translate><i class="ion-ios-undo"></i>{{'form_action.return'}}</button>
-  <button *ngIf="formEdit" type="submit" class="btn btn-primary pull-right" [disabled]="!myForm.valid">{{'form_action.submit'|translate}}</button>
-  <div class="clearfix"></div>
-  <br />
+    <div class="clearfix"></div>
+    <br />
 
-</form>
-<!-- ./ MJE CONTENT -->
+    <!-- MJE HEADER -->
+    <bc-simple-card title="Header">
+      <div class="row">
+        <div class="form-group col-sm-3" hidden>
+          <label>{{'a2z.preparer'|translate}} <small *ngIf="!myForm.controls.ppr.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+          <input type="text" class="form-control" name="ppr" formControlName="ppr"/>
+        </div>
+        <div class="form-group col-sm-3" > <!--hidden-->
+          <ng-container *ngIf="tcode == prefix + '11'">
+            <label>{{'a2z.lge'|translate}} <small *ngIf="!myForm.controls.lge.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+            <bc-combo-box name="lge" formControlName="lge" [list]="lgeList" [f1]="'lge'" [f2]="'desc'"></bc-combo-box>
+          </ng-container>
+          <ng-container *ngIf="tcode != prefix + '11'">
+            <label>{{'a2z.lge'|translate}} <small *ngIf="!myForm.controls.lge.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+            <input type="text" class="form-control" name="lge" formControlName="lge"/> <!--  [disabled]="tcode != prefix + '11'" -->
+          </ng-container>
+        </div>
+      </div>
 
-<!-- DEBUG -->
+      <div class="row">
+        <div class="form-group col-sm-3">
+          <label>{{'a2z.entry'|translate}} {{'a2z.ref'|translate}} <small *ngIf="!myForm.controls.ref.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+          <input type="text" class="form-control" name="ref" formControlName="ref"/>
+        </div>
+        <div class="form-group col-sm-3">
+          <label>{{'a2z.entry'|translate}} {{'a2z.date'|translate}} <small *ngIf="!myForm.controls.date.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+          <bc-date-picker-popup formControlName="date" [formEdit]="formEdit"></bc-date-picker-popup>
+        </div>
+        <div class="form-group col-sm-6">
+          <label>{{'a2z.entry'|translate}} {{'a2z.desc'|translate}} <small *ngIf="!myForm.controls.desc.valid" class="text-warning">({{'validation.is_required'|translate}})</small></label>
+          <input type="text" class="form-control" name="desc" formControlName="desc" />
+        </div>
+      </div>
+    </bc-simple-card>
+    <!--</ba-card>
+    <!-- ./MJE HEADER -->
 
-<div>
-  <ba-card title="DEBUG" baCardClass="with-scroll">
+    <!-- MJE CONTENT -->
+    <div formArrayName="docs">
+      <div *ngFor="let doc of myForm.controls.docs.controls; let i=index">
+          <bc-simple-card title="{{'a2z.document'|translate}} {{i+1}}">
+            <div class="form-group" [formGroupName]="i">
+              <mje-form-document  [formEdit]="formEdit"
+                                  [item]="i"
+                                  [formGroup]="myForm.controls.docs.controls[i]"
+                                  [accList]="accList"
+                                  [objTypeList]="objTypeList"
+                                  (itemEvent)="handleEvent($event)"
+                                  [refArray]="refArray">
+              </mje-form-document>
+
+              <div class="margin-20">
+                <button *ngIf="formEdit && (myForm.controls.docs.controls.length >=1)"
+                        (click)="removeDoc(i)"
+                        type="button" class="btn btn-danger pull-right">
+                        {{'form_action.remove'|translate}} {{'a2z.doc'|translate}}
+                </button>
+              </div>
+              <br />
+            </div>
+          </bc-simple-card>
+
+      </div>
+      <div *ngIf="formEdit" class="margin-20">
+        <a (click)="addDoc()" style="cursor: pointer">{{'form_action.add'|translate}} {{'a2z.document'|translate}} +</a>
+      </div>
+    </div>
+
+
+    <div class="clearfix"></div>
+    <br />
+
+    <button type="button" *ngIf="canReturn" (click)="return()" class="btn btn-default btn-with-icon" translate><i class="ion-ios-undo"></i>{{'form_action.return'}}</button>
+    <button *ngIf="formEdit"
+            (click)="submitForm()" class="btn btn-success pull-right"
+            [disabled]="!myForm.valid">
+              <i class="ion-ios-compose"></i> {{'form_action.submit'|translate}}
+    </button>
+    <div class="clearfix"></div>
+    <br />
+
+  </form>
+  <!-- ./ MJE CONTENT -->
+
+  <!-- DEBUG -->
+  <bc-simple-card title="Debug">
+  <div>
+    <h3>DEBUG</h3>
     <pre>Is myForm valid?: <br>{{myForm.valid | json}}</pre>
     <pre>form value: <br>{{myForm.value | json}}</pre>
     <pre>transaction value: <br>{{entryJournal | json}}</pre>
-  </ba-card>
-</div>
-
-<!-- ./DEBUG -->
-
-<!-- BEGIN TEST DATA -->
-<!--
-<pre>
-  {{myForm.valid}}
-</pre>
-<div class="form-group">
-  <label>Name (Text):</label>
-  <input type="text" class="form-control" name="name" [(ngModel)]="test.name" />
-</div>
-
-<div class="form-group">
-  <label>Age (Number):</label>
-  <input type="number" class="form-control" name="age" [(ngModel)]="test.age" />
-</div>
-
-<div class="input-demo radio-demo row">
-    <div class="col-md-4">
-      <label>Gender (Radio):</label>
-    </div>
-    <div class="col-md-4" *ngFor="let gender of genders">
-      <label class="radio-inline custom-radio nowrap">
-        <input type="radio" name="gender" [(ngModel)]="test.gender" [value]="gender.value" />
-        <span>{{gender.display}}</span> <!-- <span translate>{{'general.forms.option1'}}</span> --> <!--
-      </label>
-    </div>
-</div>
-
-<div class="form-group">
-  <label>Role (Select-Primitive type):</label>
-  <select class="form-control" name="role" [(ngModel)]="test.role">
-    <option *ngFor="let role of roles" [value]="role.value">
-      {{role.display}}
-    </option>
-  </select>
-</div>
-
-<div class="form-group">
-  <label>Theme (Select-Object):</label>
-  <select class="form-control" name="theme" [(ngModel)]="test.theme">
-    <option *ngFor="let theme of themes" [ngValue]="theme">
-      {{theme.display}}
-    </option>
-  </select>
-</div>
-
-<div class="form-group">
-  <label>Topics (Multiple select):</label>
-  <select multiple class="form-control" name="topics" [(ngModel)]="test.topics">
-    <option *ngFor="let topic of topics" [value]="topic.value">
-      {{topic.display}}
-    </option>
-  </select>
-</div>
-
-<div class="checkbox-demo-row">
-  <div class="input-demo checkbox-demo row">
-    <ba-multi-checkbox [(ngModel)]="checkboxModel" [propertiesMapping]="checkboxPropertiesMapping"></ba-multi-checkbox>
   </div>
-</div>
+  </bc-simple-card>
+  <!-- ./DEBUG -->
 
-<ba-multi-checkbox [(ngModel)]="checkboxModel1" [propertiesMapping]="checkboxPropertiesMapping1"></ba-multi-checkbox>
+</ng-container>
 
-
-<div class="checkbox-demo-row container-content">
-  <div class="checkbox">
-    <label class="checkbox-inline custom-checkbox nowrap">
-      <input type="checkbox" class="form-control" name="isActive" [(ngModel)]="test.isActive" />
-      <span>Is Active</span>
-    </label>
-  </div>
-</div>
-
-<div class="checkbox-demo-row container-content">
-  <input type="hidden" class="form-control" name="toggle" />
-  <div>
-    <label class="checkbox-inline custom-checkbox nowrap">
-      <input type="checkbox" class="form-control"
-        [checked]="test.toggle===toggles[0].value"
-        (change)="$event.target.checked? (test.toggle = toggle[0].value): (test.toggle = toggle[1].value)" />
-        <span>{{toggles[0].display}}</span>
-    </label>
-  </div>
-</div>
-<!-- END TEST DATA -->
+<!-- FORM ACTION COMPLETE MESSAGE -->
+<ng-container *ngIf="isSubmit">
+  <bc-page-message  [icon]="submitIcon" [title]="submitTitle">
+    <p>
+      <a translate>{{submitMessage|translate}}</a>
+    </p>
+    <br />
+    <button type="button"
+            *ngIf="canReturn"
+            (click)="return()" class="btn btn-default btn-with-icon">
+              <i class="ion-ios-undo"></i>{{'form_action.return'|translate}}
+    </button>
+  </bc-page-message>
+</ng-container>
+<!-- ./FORM ACTION COMPLETE MESSAGE -->

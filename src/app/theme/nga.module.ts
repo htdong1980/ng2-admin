@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgUploaderModule } from 'ngx-uploader';
 import { AppTranslationModule } from '../app.translation.module';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap'; // Please consider
 
 import {
   BaThemeConfig,
@@ -38,10 +39,14 @@ import {
   BcAlert,
   BcCallout,
   BcComboBox,
+  BcDatePickerPopUp,
+  BcFormNavigation,
   BcIndividual,
   BcCollective,
   BcLead,
+  BcPageMessage,
   BcUpfile,
+  BcSimpleCard,
   BcDataTable,
 } from './components';
 
@@ -102,10 +107,14 @@ const NGA_COMPONENTS = [
   BcAlert,
   BcCallout,
   BcComboBox,
+  BcDatePickerPopUp,
+  BcFormNavigation,
   BcIndividual,
   BcCollective,
   BcLead,
+  BcPageMessage,
   BcUpfile,
+  BcSimpleCard,
   BcDataTable,
 ];
 
@@ -153,6 +162,7 @@ const NGA_VALIDATORS = [
     ReactiveFormsModule,
     AppTranslationModule,
     NgUploaderModule,
+    NgbModule, // Please consider
   ],
   exports: [
     ...NGA_PIPES,

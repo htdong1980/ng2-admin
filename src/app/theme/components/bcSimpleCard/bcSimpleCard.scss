@@ -1,0 +1,41 @@
+//Box
+.simple-card {
+  position: relative;
+  margin-bottom: 24px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff !important;
+  width: 100%;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
+
+  &.height-control .simple-card-body {
+    max-height: 300px;
+    overflow: auto;
+  }
+}
+
+.simple-card-header {
+  display: block;
+  position: relative;
+  padding: 15px 22px 5px 22px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.simple-card-title {
+  font-weight: 400;
+  font-size: 16px;
+  text-transform: uppercase;
+  opacity: 0.9;
+  color: #ffffff;
+}
+
+.simple-card-body {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  padding: 15px 22px;
+  height: 100%;
+}

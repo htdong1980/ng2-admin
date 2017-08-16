@@ -19,7 +19,7 @@ export class RefModal implements OnInit {
   objType: string;              // Value of dropdown 'ObjType'
   objId: string;
   objTitle: string;             // Title of selected object
-  refArray: Array<any>;         // Reference Array
+  objArray: Array<any>;         // Reference Array
   selected: CompleterItem;
 
   private results$ = new Subject();
@@ -38,15 +38,15 @@ export class RefModal implements OnInit {
   ngOnInit() {
     console.log(this.objType);
     console.log(this.objTitle);
-    console.log(this.refArray);
+    console.log(this.objArray);
   }
 
   onSelect(objType) {
     this.objType = objType;
     console.log(objType);
 
-    console.log(this.refArray[objType]);
-    this.results$.next(this.refArray[objType]);
+    console.log(this.objArray[objType]);
+    this.results$.next(this.objArray[objType]);
     // this.resultsFetched = true;
 
   }

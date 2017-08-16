@@ -1,3 +1,4 @@
+import { BcUtilsService } from '../../services/bcUtils';
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -12,7 +13,13 @@ export class BaPageError {
   @Input() link: string;
   @Input() text: string;
 
-  constructor() {
+  constructor(
+    private utilsService: BcUtilsService,
+  ) {
   }
 
+  /* To return the home of tcode */
+  private return(): void {
+    this.utilsService.returnPrevious();
+  }
 }

@@ -1,10 +1,20 @@
 <!-- page size and filter -->
-<div class="form-control pull-left">
+<div class="form-group">
   <div class ="pull-left">
-    <input type="number" class="form-control" *ngIf="pageSizeSelect" [(ngModel)]="pageSize" (keyup)="reSize()" placeholder="Page Size" />
+    <input  type="number"
+            class="form-control"
+            *ngIf="pageSizeSelect"
+            [(ngModel)]="pageSize"
+            (keyup)="reSize()"
+            placeholder="{{'table.page_size'|translate}}" />
   </div>
   <div class="pull-right">
-    <input type="text" class="form-control" *ngIf="enableFilter" [(ngModel)]="query" ng-model-options="{debounce: 5000}" (keyup)="filter()" placeholder="Filter" />
+    <input  type="text" class="form-control"
+            *ngIf="enableFilter"
+            [(ngModel)]="query"
+            ng-model-options="{debounce: 5000}"
+            (keyup)="filter()"
+            placeholder="{{'table.filter'|translate}}" />
   </div>
 </div>
 <div class="clearfix"></div>
@@ -14,22 +24,49 @@
 <table class="table table-hover table-sortable">
   <thead>
     <tr class="black-muted-bg">
-      <th *ngFor="let column of columns" [class]="selectedClass(column.variable)" (click)="changeSorting(column.variable)" translate>
-        {{column.display}}
+      <th *ngFor="let column of columns"
+          [class]="selectedClass(column.variable)"
+          (click)="changeSorting(column.variable)"
+          [ngStyle]="{'text-align': column.align}">
+            {{column.display|translate}}
       </th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let object of pagedItems | orderBy : convertSorting()">
-      <td *ngFor="let column of columns">
+      <td *ngFor="let column of columns" [ngStyle]="{'text-align': column.align}">
         {{object[column.variable] | format : column.filter}}
-        <div *ngIf="column.variable=='_action'" class="btn-group btn-action pull-right">
-            <button (click)="onClick('02', object._id)" type="button" class="btn btn-default btn-icon"><i class="ion-android-search"></i></button>
-            <button (click)="onClick('03', object._id)" type="button" class="btn btn-default btn-icon"><i class="ion-android-create"></i></button>
-            <button (click)="onClick('04', object._id)" type="button" class="btn btn-default btn-icon"><i class="ion-toggle-filled"></i></button>
-            <button (click)="onClick('05', object._id)" type="button" class="btn btn-default btn-icon"><i class="ion-toggle"></i></button>
-            <button (click)="onClick('06', object._id)" type="button" class="btn btn-default btn-icon"><i class="ion-clock"></i></button>
-        </div>
+
+        <ng-container *ngIf="collapse">
+          <div *ngIf="column.variable=='_action'">
+              <div class="btn-group" ngbDropdown>
+                <button type="button" class="btn btn-default" ngbDropdownToggle>{{'table.action'|translate}}</button>
+                <ul class="dropdown-menu">
+                  <li *ngIf="checkTCodeViaAction('12')" class="dropdown-item" (click)="executeTCodeViaActionAndId('12', object._id)"><a><i class="ion-android-search"></i> {{'individual.view'|translate}}</a></li>
+                  <li *ngIf="checkTCodeViaAction('13')" class="dropdown-item" (click)="executeTCodeViaActionAndId('13', object._id)"><a><i class="ion-android-create"></i> {{'individual.edit'|translate}}</a></li>
+                  <li *ngIf="checkTCodeViaAction('14')" class="dropdown-item" (click)="executeTCodeViaActionAndId('14', object._id)"><a><i class="ion-toggle-filled"></i></a> {{'individual.disable'|translate}}</li>
+                  <li *ngIf="checkTCodeViaAction('15')" class="dropdown-item" (click)="executeTCodeViaActionAndId('15', object._id)"><a><i class="ion-toggle"></i></a> {{'individual.enable'|translate}}</li>
+                  <li *ngIf="checkTCodeViaAction('16')" class="dropdown-item" (click)="executeTCodeViaActionAndId('16', object._id)"><a><i class="ion-clock"></i></a> {{'individual.view_change'|translate}}</li>
+                  <!--<li class="dropdown-divider"></li>-->
+                  <li *ngIf="checkTCodeViaAction('17')" class="dropdown-item" (click)="executeTCodeViaActionAndId('17', object._id)"><a><i class="ion-forward"></i></a> {{'individual.post'|translate}}</li>
+                  <li *ngIf="checkTCodeViaAction('18')" class="dropdown-item" (click)="executeTCodeViaActionAndId('18', object._id)"><a><i class="ion-reply"></i></a> {{'individual.revert'|translate}}</li>
+                </ul>
+              </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="!collapse">
+          <div *ngIf="column.variable=='_action'" class="btn-group btn-action pull-right">
+              <button *ngIf="checkTCodeViaAction('12')" (click)="executeTCodeViaActionAndId('12', object._id)" type="button" class="btn btn-default btn-icon"><i class="ion-android-search"></i></button>
+              <button *ngIf="checkTCodeViaAction('13')" (click)="executeTCodeViaActionAndId('13', object._id)" type="button" class="btn btn-default btn-icon"><i class="ion-android-create"></i></button>
+              <button *ngIf="checkTCodeViaAction('14')" (click)="executeTCodeViaActionAndId('14', object._id)" type="button" class="btn btn-default btn-icon"><i class="ion-toggle-filled"></i></button>
+              <button *ngIf="checkTCodeViaAction('15')" (click)="executeTCodeViaActionAndId('15', object._id)" type="button" class="btn btn-default btn-icon"><i class="ion-toggle"></i></button>
+              <button *ngIf="checkTCodeViaAction('16')" (click)="executeTCodeViaActionAndId('16', object._id)" type="button" class="btn btn-default btn-icon"><i class="ion-clock"></i></button>
+              <button *ngIf="checkTCodeViaAction('17')" (click)="executeTCodeViaActionAndId('17', object._id)" type="button" class="btn btn-default btn-icon"><i class="ion-forward"></i></button>
+              <button *ngIf="checkTCodeViaAction('18')" (click)="executeTCodeViaActionAndId('18', object._id)" type="button" class="btn btn-default btn-icon"><i class="ion-reply"></i></button>
+          </div>
+        </ng-container>
+
       </td>
     </tr>
   </tbody>
@@ -38,10 +75,10 @@
 
 <!-- pager -->
 <div class="pull-left">
-  <span translate>{{'shared.table.showing'}}</span> {{(pager.currentPage - 1) * pageSize + 1}}
-  <span translate>{{'shared.table.to'}}</span> {{(((pager.currentPage - 1) * pageSize + 1) + pageSize < recordCount)
-    ?(((pager.currentPage - 1) * pageSize + 1) + pageSize):recordCount}}
-  <span translate>{{'shared.table.of'}}</span> {{recordCount}}
+  <span translate>{{'table.showing'}}</span> {{(pager.currentPage - 1) * pageSize + 1}}
+  <span translate>{{'table.to'}}</span>
+  {{(((pager.currentPage - 1) * pageSize + 1) + pageSize < recordCount) ? (((pager.currentPage - 1) * pageSize + 1) + pageSize) : recordCount}}
+  <span translate>{{'table.of'}}</span> {{recordCount}} <span translate>{{'table.records'}}</span>
 </div>
 <div class="btn-group pull-right" *ngIf="pager.pages && pager.pages.length">
   <button [ngClass]="{disabled:pager.currentPage === 1}" (click)="setPage(1)" type="button" class="btn btn-default btn-icon">

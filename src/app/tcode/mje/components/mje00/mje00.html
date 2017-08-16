@@ -1,14 +1,37 @@
-<div class="widgets">
-  <div class="row">
-    <div class="col-xl-12 col-lg-12 col-md-12">
-      <ba-card title="" baCardClass="with-scroll">
-        <bc-individual [prefix]="prefix" [rights]="rights"></bc-individual>
-        <bc-collective [prefix]="prefix" [rights]="rights"></bc-collective>
-      </ba-card>
+<ba-card title="{{'mje.desc'|translate}}">
+  <div class="widgets">
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12">
+        <div class="form-group pull-right">
+          <bc-individual
+            [prefix]="prefix"
+            [rights]="rights"
+            [collapse]="collapse">
+          </bc-individual>
+          <bc-collective
+            [prefix]="prefix"
+            [rights]="rights"
+            [collapse]="collapse">
+          </bc-collective>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-<ba-card baCardClass="with-scroll" class="smart-table-container"> <!-- title="List of Manual Journal Entries" -->
-    <mje-list></mje-list>
+  <ba-card baCardClass="with-scroll" class="smart-table-container"> <!-- title="List of Manual Journal Entries" -->
+      <mje-list
+        [collapse]="collapse"
+        [rights]="rights">
+      </mje-list>
+  </ba-card>
+
+  <div class="margin-20">
+    <a *ngIf="!collapse" (click)="toggleCollapse()" style="cursor: pointer"><i class="ion-android-remove-circle"></i> {{'form_action.collapse'|translate}}</a>
+    <a *ngIf="collapse" (click)="toggleCollapse()" style="cursor: pointer"><i class="ion-android-add-circle"></i> {{'form_action.expand'|translate}}</a>
+  </div>
+
+  <br />
+  <br />
+  <div class="clearfix"></div>
+
 </ba-card>

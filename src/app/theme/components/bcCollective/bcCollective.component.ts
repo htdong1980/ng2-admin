@@ -1,4 +1,3 @@
-// import { TCode } from '../../../core';
 import { BcUtilsService } from '../../services/bcUtils';
 
 import { Component, Input, OnInit } from '@angular/core';
@@ -13,7 +12,8 @@ export class BcCollective implements OnInit {
   // Please refer to BcIndividual to see different between Literal Array of Objects literal
 
   @Input() prefix: string;      // tcode-prefix
-  @Input() rights: Array<any>;  // TCode[];
+  @Input() rights: [string];  // TCode[];
+  @Input() collapse: boolean;
 
   currentUrl: string;
   rightsArray: any = null;
@@ -23,28 +23,17 @@ export class BcCollective implements OnInit {
     private utilsService: BcUtilsService,
   ) { }
 
-  ngOnInit () {
-    this.currentUrl = this.router.url;
+  ngOnInit () {}
 
-    this.rightsArray = $.map(this.rights, function (value) { return value; });
-    this.rightsArray.sort(this.compare);
-    // console.log(this.rightsArray);
+  checkTCodeViaAction(action: string): boolean {
+    const tcode: string = this.prefix + action;
+    return this.utilsService.checkTCodeInEncodeArray(tcode, this.rights);
   }
 
-  private compare(a, b) {
-    if ( a.tcode < b.tcode ) {
-      return -1;
-    }
-    if ( a.tcode > b.tcode ) {
-      return 1;
-    }
-    return 0;
-  }
-
-  /* To get tcode and navigate the link */
-  private onClick(tcode) {
-    const url: string = this.utilsService.urlLead(tcode);
-    this.router.navigate([url, { returnUrl: this.currentUrl }]);
+  executeTCodeViaAction(action: string): void {
+    const url: string = this.utilsService.urlCombineTCode(this.prefix, action);
+    console.log(url);
+    this.router.navigate([url]);
   }
 
 }

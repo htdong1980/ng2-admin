@@ -1,4 +1,4 @@
-import { TCode } from '../../../core/models/tcode';
+// import { TCode } from '../../../core/models/tcode';
 
 import { BcUtilsService } from '../../services/bcUtils';
 import { BcPagerService } from '../../services/bcPager';
@@ -16,6 +16,7 @@ export class BcDataTable implements OnInit, OnChanges {
 
   // tcode-prefix that table navigate to
   @Input() prefix: string;
+  @Input() rights: [string];
 
   // header and data of table
   @Input() columns: any[];  // header column
@@ -39,7 +40,8 @@ export class BcDataTable implements OnInit, OnChanges {
   recordCount: number = 0;
 
   // in case only display button by rights
-  @Input() rights: TCode[];
+  // @Input() rights: TCode[];
+  @Input() collapse: boolean = true;
 
   constructor(
     private pagerService: BcPagerService,
@@ -50,9 +52,10 @@ export class BcDataTable implements OnInit, OnChanges {
 
   ngOnInit() {
     const column = {
-      display: 'shared.action',   // The text to display
+      display: 'table.action',   // The text to display
       variable: '_action',        // The name of the key that's apart of the data array
       filter: 'button',           // The type data type of the column (number, text, date, etc.)
+      align: 'center',
     };
     this.addColumn(column);
   }
@@ -119,10 +122,15 @@ export class BcDataTable implements OnInit, OnChanges {
     return this.sort.descending ? '-' + this.sort.column : this.sort.column;
   }
 
-  /* To get value and navigate the link */
-  private onClick(code: string, value: string): void {
-    const url: string = this.utilsService.urlForm(this.prefix + code, value);
-    this.router.navigate([url]);
+  checkTCodeViaAction(action: string): boolean {
+    const tcode: string = this.prefix + action;
+    return this.utilsService.checkTCodeInEncodeArray(tcode, this.rights);
   }
 
+  executeTCodeViaActionAndId(action: string, id: string): void {
+    const url: string = this.utilsService.urlCombineId(this.prefix, action, id);
+    console.log(url);
+    this.router.navigate([url]);
+  }
+  
 }
